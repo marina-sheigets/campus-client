@@ -26,8 +26,6 @@ const Wrapper = styled('div')`
 	background: ${theme.background.white.primary};
 	justify-content: center;
 	align-items: center;
-	-webkit-box-shadow: 0px -5px 14px 0px rgba(51, 50, 51, 0.69);
-	-moz-box-shadow: 0px -5px 14px 0px rgba(51, 50, 51, 0.69);
-	box-shadow: 0px -5px 14px 0px rgba(51, 50, 51, 0.69);
+	box-shadow: 0px -1px 14px 0px rgba(0, 0, 0, 0.3);
 `;
 export default Footer;

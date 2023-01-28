@@ -8,7 +8,7 @@ function Header() {
 	return (
 		<Wrapper>
 			<Logo src={logo} />
-			<h4>Welcome, Marina Sheihets</h4>
+			<h3>Welcome, Marina Sheihets</h3>
 
 			<Tools>
 				<ToolsItems>
@@ -43,12 +43,10 @@ const Logo = styled('img')`
 	cursor: pointer;
 `;
 const Wrapper = styled('div')`
-	padding: 0.5rem 1rem;
 	display: flex;
+	padding: 0 1rem;
 	justify-content: space-between;
 	align-items: center;
-	-webkit-box-shadow: 0px 5px 14px 0px rgba(51, 50, 51, 0.69);
-	-moz-box-shadow: 0px 5px 14px 0px rgba(51, 50, 51, 0.69);
-	box-shadow: 0px 5px 14px 0px rgba(51, 50, 51, 0.69);
+	box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.3);
 `;
 export default Header;
