@@ -5,6 +5,7 @@ import CreateNewArticle from './pages/Admin/CreateNewArticle/CreateNewArticle';
 import CreateNewFaculty from './pages/Admin/CreateNewFaculty/CreateNewFaculty';
 import CreateNewGroup from './pages/Admin/CreateNewGroup/CreateNewGroup';
 import CreateNewStudent from './pages/Admin/CreateNewStudent/CreateNewStudent';
+import CreateNewSubject from './pages/Admin/CreateNewSubject/CreateNewSubject';
 import CreateNewTeacher from './pages/Admin/CreateNewTeacher/CreateNewTeacher';
 import Login from './pages/Login/Login';
 
@@ -18,6 +19,7 @@ function App() {
 				<Route path='/new/teacher' element={<CreateNewTeacher />} />
 				<Route path='/new/group' element={<CreateNewGroup />} />
 				<Route path='/new/faculty' element={<CreateNewFaculty />} />
+				<Route path='/new/subject' element={<CreateNewSubject />} />
 			</Routes>
 		</BrowserRouter>
 	);
