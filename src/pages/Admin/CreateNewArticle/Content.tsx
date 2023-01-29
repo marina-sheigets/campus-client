@@ -7,15 +7,18 @@ import Forms from '../../../components/__atoms__/Forms/Forms';
 import Form from '../../../components/__atoms__/Form/Form';
 import theme from '../../../constants/globalStyles';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import CreatePageWrapper from '../../../components/__atoms__/CreatePageWrapper/CreatePageWrapper';
+import TitleBox from '../../../components/__atoms__/TitleBox/TitleBox';
+import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
 
 function Content() {
 	return (
-		<Wrapper>
+		<CreatePageWrapper>
 			<TitleBox>
-				<Title>
+				<CreatePageTitle>
 					<NewspaperIcon fontSize='large' />
 					Create New Article
-				</Title>
+				</CreatePageTitle>
 			</TitleBox>
 
 			<Forms>
@@ -48,14 +51,12 @@ function Content() {
 				</LinkForm>
 			</Forms>
 			<FinishButton variant='contained'>Finish</FinishButton>
-		</Wrapper>
+		</CreatePageWrapper>
 	);
 }
 
 const FinishButton = styled(Button)`
 	width: 300px;
-	background: ${theme.background.blue.primary};
-	opacity: 0.5;
 	margin-top: 2rem;
 	margin-bottom: 1rem;
 `;
@@ -81,20 +82,13 @@ const LinkBox = styled('div')`
 	.MuiInputBase-input {
 		background: ${theme.background.black.light};
 		border: none;
-		opacity: 0.5;
 	}
 `;
 
-const TitleBox = styled('div')`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-`;
 const StyledForm = styled(Form)`
 	.MuiInputBase-input {
 		background: ${theme.background.black.light};
 		border: none;
-		opacity: 0.5;
 	}
 `;
 
@@ -105,22 +99,5 @@ const Textarea = styled('textarea')`
 	height: 250px;
 	border-radius: 10px;
 `;
-const Title = styled('h3')`
-	font-size: 1.5rem;
-	margin: 0.5rem;
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	width: 40%;
-`;
 
-const Wrapper = styled('div')`
-	padding: 1rem 4rem 2rem;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
-	height: 90vh;
-	overflow: scroll;
-`;
 export default Content;

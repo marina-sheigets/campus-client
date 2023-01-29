@@ -2,7 +2,7 @@ const theme = {
 	text: {
 		black: {
 			primary: '#000000',
-			light: '#D9D9D9',
+			light: 'rgb(217, 217, 217, 0.5)',
 			middle: '#636364',
 		},
 		white: {
@@ -17,15 +17,22 @@ const theme = {
 	},
 	background: {
 		blue: {
-			primary: '#1036BC',
+			primary: 'rgb(16, 54, 188,0.5)',
 		},
 		white: {
 			primary: '#FFFFFF',
 		},
 		black: {
 			primary: '#000000',
-			light: '#D9D9D9',
+			light: 'rgb(217, 217, 217, 0.5)',
 			middle: '#636364',
+		},
+	},
+	border: {
+		black: {
+			primary: '#000000',
+			light: 'rgb(217, 217, 217, 0.5)',
+			middle: 'rgba(0, 0, 0, 0.23)',
 		},
 	},
 };

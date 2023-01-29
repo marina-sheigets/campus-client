@@ -44,7 +44,6 @@ const Wrapper = styled('div')`
 	width: 250px;
 	padding: 2rem 0.5rem;
 	background: ${theme.background.blue.primary};
-	opacity: 57%;
 	height: 85vh;
 	z-index: 1;
 `;
