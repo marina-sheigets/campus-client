@@ -1,4 +1,11 @@
-import { Button, InputAdornment, MenuItem, Select, TextField } from '@mui/material';
+import {
+	Button,
+	InputAdornment,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	TextField,
+} from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
@@ -9,18 +16,64 @@ import theme from '../../../constants/globalStyles';
 import PersonIcon from '@mui/icons-material/Person';
 import LabelBox from '../../../components/__features__/LabelBox/LabelBox';
 import Form from '../../../components/__atoms__/Form/Form';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 function Content() {
 	const [years, setYears] = useState<number[]>([]);
+	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const [yearOfAdmission, setYearOfAdmission] = useState(new Date().getFullYear().toString());
+	const [group, setGroup] = useState('ТР-92');
+	const [faculty, setFaculty] = useState('ТР-92');
+	const [cathedra, setCathedra] = useState('');
+	const [specialty, setSpecialty] = useState('');
+	const [type, setType] = useState('');
 
-	const currentYear = useMemo(() => new Date().getFullYear(), []);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const regEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+	const handleChangeName = (e: any) => setName(e.target.value);
+	const handleChangeEmail = (e: any) => setEmail(e.target.value);
+	const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value);
+	const handleChangeYearOfAdmission = (event: SelectChangeEvent) =>
+		setYearOfAdmission(event.target.value as string);
+	const handleChangeGroup = (event: SelectChangeEvent) => setGroup(event.target.value as string);
+	const handleChangeFaculty = (event: SelectChangeEvent) =>
+		setFaculty(event.target.value as string);
+	const handleChangeCathedra = (event: SelectChangeEvent) =>
+		setCathedra(event.target.value as string);
+	const handleChangeSpecialty = (event: SelectChangeEvent) =>
+		setSpecialty(event.target.value as string);
+	const handleChangeType = (event: SelectChangeEvent) => setType(event.target.value as string);
 
+	const isAllCompleted = useMemo(
+		() =>
+			name.trim().length &&
+			email.match(regEx) &&
+			phoneNumber.trim().length === 10 &&
+			yearOfAdmission.length &&
+			group.length &&
+			faculty.length &&
+			cathedra.length &&
+			specialty.length &&
+			type.length,
+		[
+			name,
+			email,
+			regEx,
+			phoneNumber,
+			yearOfAdmission,
+			group,
+			faculty,
+			cathedra,
+			specialty,
+			type,
+		]
+	);
 	useEffect(() => {
-		const arr = Array.from(new Array(6), (val, index) => currentYear - index);
+		const arr = Array.from(new Array(6), (val, index) => parseInt(yearOfAdmission) - index);
 		setYears(arr);
-		console.log(arr);
-	}, [currentYear]);
+	}, [yearOfAdmission]);
+
 	return (
 		<CreatePageWrapper>
 			<TitleBox>
@@ -35,30 +88,31 @@ function Content() {
 					<Column>
 						<StyledForm>
 							<LabelBox label={'Full name'} />
-							<TextField size='small' placeholder={"Enter student's  first name "} />
-						</StyledForm>
-						<Form>
-							<LabelBox label={'Generate a password'} />
-							<TextFieldWithIcon
+							<TextField
 								size='small'
-								placeholder={'Password'}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position='end'>
-											<SettingsOutlinedIcon />
-										</InputAdornment>
-									),
-								}}
+								value={name}
+								onChange={handleChangeName}
+								placeholder={"Enter student's full name "}
 							/>
-						</Form>
+						</StyledForm>
+
 						<StyledForm>
 							<LabelBox label={'Email'} />
-							<TextField size='small' placeholder={"Enter student's  email "} />
+							<TextField
+								size='small'
+								value={email}
+								onChange={handleChangeEmail}
+								type={'email'}
+								placeholder={"Enter student's  email "}
+							/>
 						</StyledForm>
 						<Form>
 							<LabelBox label={'Phone number'} />
 							<TextFieldWithIcon
 								size='small'
+								type='number'
+								value={phoneNumber}
+								onChange={handleChangePhoneNumber}
 								placeholder={"Enter student's  phone number "}
 								InputProps={{
 									startAdornment: (
@@ -72,10 +126,26 @@ function Content() {
 							<Select
 								size='small'
 								placeholder='Select year of admission'
-								value={currentYear}
-								onChange={() => {}}>
+								value={yearOfAdmission}
+								onChange={handleChangeYearOfAdmission}>
 								{years.map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
+									<MenuItem key={index} value={year}>
+										{year}
+									</MenuItem>
+								))}
+							</Select>
+						</StyledForm>
+						<StyledForm>
+							<LabelBox label={'Group'} />
+							<Select
+								size='small'
+								placeholder="Select student's group"
+								value={group}
+								onChange={handleChangeGroup}>
+								{['ТР-92', 'ТР-93'].map((group, index) => (
+									<MenuItem key={index} value={group}>
+										{group}
+									</MenuItem>
 								))}
 							</Select>
 						</StyledForm>
@@ -87,10 +157,12 @@ function Content() {
 							<Select
 								size='small'
 								placeholder="Select the student's faculty"
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
+								value={faculty}
+								onChange={handleChangeFaculty}>
+								{['nbs', 'dgfd'].map((faculty, index) => (
+									<MenuItem key={index} value={faculty}>
+										{faculty}
+									</MenuItem>
 								))}
 							</Select>
 						</StyledForm>
@@ -102,10 +174,12 @@ function Content() {
 							<Select
 								size='small'
 								placeholder="Select student's cathedra"
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
+								value={cathedra}
+								onChange={handleChangeCathedra}>
+								{['APEPS'].map((item, index) => (
+									<MenuItem key={index} value={item}>
+										{item}
+									</MenuItem>
 								))}
 							</Select>
 						</StyledForm>
@@ -114,22 +188,12 @@ function Content() {
 							<Select
 								size='small'
 								placeholder='Select specialty'
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
-								))}
-							</Select>
-						</StyledForm>
-						<StyledForm>
-							<LabelBox label={'Group'} />
-							<Select
-								size='small'
-								placeholder="Select student's  group"
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
+								value={specialty}
+								onChange={handleChangeSpecialty}>
+								{[].map((item, index) => (
+									<MenuItem key={index} value={item}>
+										{item}
+									</MenuItem>
 								))}
 							</Select>
 						</StyledForm>
@@ -138,17 +202,21 @@ function Content() {
 							<Select
 								size='small'
 								placeholder='Select type of studying'
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
+								value={type}
+								onChange={handleChangeType}>
+								{[].map((item, index) => (
+									<MenuItem key={index} value={item}>
+										{item}
+									</MenuItem>
 								))}
-							</Select>{' '}
+							</Select>
 						</StyledForm>
 					</Column>
 				</FormBox>
 			</Forms>
-			<FinishButton variant='contained'>Finish</FinishButton>
+			<FinishButton disabled={!isAllCompleted} variant='contained'>
+				Finish
+			</FinishButton>
 		</CreatePageWrapper>
 	);
 }
