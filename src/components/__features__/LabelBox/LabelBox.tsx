@@ -2,6 +2,7 @@ import { Tooltip } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import theme from '../../../constants/globalStyles';
 
 type LabelBoxProps = {
 	label: string;
@@ -22,7 +23,10 @@ function LabelBox({ label, maxOfCharacters, currentAmount, tooltip }: LabelBoxPr
 				) : null}
 			</Label>
 			{maxOfCharacters ? (
-				<Characters>{`${currentAmount}/${maxOfCharacters} characters`}</Characters>
+				<Characters
+					error={
+						maxOfCharacters === currentAmount
+					}>{`${currentAmount}/${maxOfCharacters} characters`}</Characters>
 			) : null}
 		</Wrapper>
 	);
@@ -35,9 +39,10 @@ const Label = styled('h3')`
 	gap: 0.5rem;
 `;
 
-const Characters = styled('span')`
+const Characters = styled('span')<{ error: boolean }>`
 	font-weight: 200;
 	font-size: 0.75rem;
+	color: ${(props) => (props.error ? `${theme.text.error.primary}` : 'none')};
 `;
 const Wrapper = styled('div')`
 	display: flex;
