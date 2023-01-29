@@ -7,6 +7,7 @@ const theme = {
 		},
 		white: {
 			primary: '#FFFFFF',
+			light: 'rgb(255, 255, 255, 0.5)',
 		},
 		success: {
 			primary: '#42F56C',
