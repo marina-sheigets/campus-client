@@ -3,10 +3,9 @@ import { put, takeLatest, call } from 'redux-saga/effects';
 import { createStudentRequest } from '../api';
 
 function* createStudent(action: any) {
-	console.log(action);
 	try {
 		// @ts-ignore
-		const res = yield call(createStudentRequest, { ...action.payload, password });
+		const res = yield call(createStudentRequest, { ...action.payload });
 		yield put(createStudentAction.success(res));
 	} catch ({ message }: any) {
 		yield put(createStudentAction.failed({ message }));

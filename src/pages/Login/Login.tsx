@@ -1,11 +1,48 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import img from '../../assets/login.jpg';
 import logo from '../../assets/5920.jpg';
 import theme from '../../constants/globalStyles';
-import { TextField } from '@mui/material';
+import { TextField, Alert } from '@mui/material';
 import Button from '@mui/material/Button';
+import { signInAction, clearAuthErrorAction } from '../../redux/api/ApiActions';
+import { getAuthError, getIsAuth } from '../../redux/selectors/auth';
+import { useNavigate } from 'react-router';
+
 function Login() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const authError = useSelector(getAuthError);
+	const isAuth = useSelector(getIsAuth);
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const emailReg = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+	const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+	const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+		setPassword(e.target.value);
+
+	const handleSignIn = () => {
+		dispatch(signInAction.request({ email, password }));
+	};
+
+	const handleAlertMessageClose = () => {
+		dispatch(clearAuthErrorAction.request());
+	};
+
+	const isAllCompleted = useMemo(
+		() => email.match(emailReg) && password.length > 7,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[email, password]
+	);
+
+	useEffect(() => {
+		if (isAuth) {
+			navigate('/new/student');
+		}
+	}, [isAuth, navigate]);
 	return (
 		<Wrapper>
 			<LoginBox>
@@ -13,18 +50,42 @@ function Login() {
 				<MainTitle>Welcome to Campus</MainTitle>
 				<LoginForm>
 					<Title>Enter your credentials</Title>
-					<StyledTextField placeholder='Email' />
-					<StyledTextField placeholder='Password' />
+					{authError ? (
+						<StyledAlert onClose={handleAlertMessageClose} severity='error'>
+							{authError}
+						</StyledAlert>
+					) : null}
+					<StyledTextField
+						value={email}
+						onChange={handleChangeEmail}
+						size='small'
+						placeholder='Email'
+					/>
+					<StyledTextField
+						value={password}
+						onChange={handleChangePassword}
+						size='small'
+						type='password'
+						placeholder='Password'
+					/>
 					<ForgetPassword>
 						<span>Forget password ?</span>
 					</ForgetPassword>
-					<SignInButton variant='contained'>Sign In</SignInButton>
+					<SignInButton
+						disabled={!isAllCompleted}
+						onClick={handleSignIn}
+						variant='contained'>
+						Sign In
+					</SignInButton>
 					<ViewButton variant='contained'>View Group Curators</ViewButton>
 				</LoginForm>
 			</LoginBox>
 		</Wrapper>
 	);
 }
+const StyledAlert = styled(Alert)`
+	width: 100%;
+`;
 const LogoImg = styled('img')`
 	width: 150px;
 `;
