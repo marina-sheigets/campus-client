@@ -17,6 +17,9 @@ const theme = {
 		},
 	},
 	background: {
+		gold: {
+			primary: '#FFD700',
+		},
 		blue: {
 			primary: 'rgb(16, 54, 188,0.5)',
 		},

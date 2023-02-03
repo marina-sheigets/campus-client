@@ -1,6 +1,12 @@
 import { clearAuthErrorAction, signInAction } from '../api/ApiActions';
+import { Student, Teacher } from '../types/auth';
 
-const initialState = {
+type InitialState = {
+	user: Student | Teacher | {};
+	authError: string;
+	isAuth: boolean;
+};
+const initialState: InitialState = {
 	user: {},
 	authError: '',
 	isAuth: false,

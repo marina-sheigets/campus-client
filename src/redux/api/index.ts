@@ -23,3 +23,15 @@ export const signInRequest = async ({ email, password }: { email: string; passwo
 		};
 	}
 };
+
+export const checkUserAuthRequest = async () => {
+	try {
+		const response = await $api.get('/auth/refresh');
+		return { success: true, data: response.data };
+	} catch (err: any) {
+		return {
+			success: false,
+			data: err.response.data || 'Ops, something went wrong !',
+		};
+	}
+};

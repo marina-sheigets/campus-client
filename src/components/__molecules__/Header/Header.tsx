@@ -1,17 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from '../../../assets/5920.jpg';
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import iconBack from '../../../assets/exit-to-app.png';
 import theme from '../../../constants/globalStyles';
+import { useSelector } from 'react-redux';
+import { getUser } from '../../../redux/selectors/auth';
+import { Student, Teacher, Admin } from '../../../redux/types/auth';
+import { BiCrown } from 'react-icons/bi';
 function Header() {
+	const user: Admin | Student | Teacher = useSelector(getUser);
+
 	return (
 		<Wrapper>
 			<Logo src={logo} />
-			<h3>Welcome, Marina Sheihets</h3>
+			<h3>Welcome, {user.name}</h3>
 
 			<Tools>
 				<ToolsItems>
+					{user.isAdmin ? (
+						<Tooltip title='You`re admin !' placement='bottom' arrow>
+							<span>
+								<BiCrown />
+							</span>
+						</Tooltip>
+					) : null}
+
 					<MyProfileButton variant='contained'>My Profile</MyProfileButton>
 					<IconButton src={iconBack} />
 				</ToolsItems>
@@ -37,6 +51,12 @@ const ToolsItems = styled('div')`
 	gap: 1rem;
 	justify-content: space-between;
 	align-items: center;
+
+	svg {
+		fill: ${theme.background.gold.primary};
+		width: 30px;
+		height: 30px;
+	}
 `;
 const Logo = styled('img')`
 	width: 60px;
