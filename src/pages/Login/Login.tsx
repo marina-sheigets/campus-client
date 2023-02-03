@@ -6,7 +6,11 @@ import logo from '../../assets/5920.jpg';
 import theme from '../../constants/globalStyles';
 import { TextField, Alert } from '@mui/material';
 import Button from '@mui/material/Button';
-import { signInAction, clearAuthErrorAction } from '../../redux/api/ApiActions';
+import {
+	signInAction,
+	clearAuthErrorAction,
+	checkUserAuthAction,
+} from '../../redux/api/ApiActions';
 import { getAuthError, getIsAuth } from '../../redux/selectors/auth';
 import { useNavigate } from 'react-router';
 
@@ -43,6 +47,13 @@ function Login() {
 			navigate('/new/student');
 		}
 	}, [isAuth, navigate]);
+
+	useEffect(() => {
+		if (localStorage.getItem('token')) {
+			dispatch(checkUserAuthAction.request());
+		}
+	}, [dispatch]);
+
 	return (
 		<Wrapper>
 			<LoginBox>
