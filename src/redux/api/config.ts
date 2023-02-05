@@ -2,8 +2,10 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000';
 const $api = axios.create({
-	withCredentials: true,
 	baseURL: API_URL,
+	headers: {
+		'Content-Type': 'application/json',
+	},
 });
 
 $api.interceptors.request.use((config) => {
@@ -17,15 +19,18 @@ $api.interceptors.response.use(
 	},
 	async (error) => {
 		const initialRequest = error.config;
-		if (error.response.status === 401) {
+		if (error?.response.status === 401) {
 			try {
-				const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true });
+				const response = await axios.get(`${API_URL}/auth/refresh`, {
+					withCredentials: true,
+				});
 				localStorage.setItem('token', response.data.accessToken);
 				return $api.request(initialRequest);
 			} catch (e) {
-				console.log(e);
+				return Promise.reject(e);
 			}
 		}
+		return Promise.reject(error);
 	}
 );
 

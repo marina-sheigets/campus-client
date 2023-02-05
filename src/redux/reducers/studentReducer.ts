@@ -1,16 +1,38 @@
-import { createStudentAction } from '../api/ApiActions';
+import { clearStudentStatusMessageAction, createStudentAction } from '../api/ApiActions';
 
-const initialState = {};
+const initialState = {
+	status: '',
+};
 
 const studentReducer = (state = initialState, action: any) => {
 	switch (action.type) {
+		case createStudentAction.type.REQUEST: {
+			return {
+				...state,
+				status: 'Started',
+			};
+		}
 		case createStudentAction.type.SUCCESS: {
-			console.log(action.payload);
-			return state;
+			const { message } = action.payload.data;
+			if (message) {
+				return {
+					...state,
+					status: message,
+				};
+			}
+			return {
+				...state,
+				status: 'Student was successfully created',
+			};
 		}
 		case createStudentAction.type.FAILED: {
-			console.log(action.payload);
-			return state;
+			return { ...state, errorMessage: '' };
+		}
+		case clearStudentStatusMessageAction.type.REQUEST: {
+			return {
+				...state,
+				status: '',
+			};
 		}
 		default: {
 			return state;

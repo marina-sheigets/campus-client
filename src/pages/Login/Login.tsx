@@ -52,7 +52,9 @@ function Login() {
 		if (localStorage.getItem('token')) {
 			dispatch(checkUserAuthAction.request());
 		}
-	}, [dispatch]);
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<Wrapper>
@@ -116,7 +118,6 @@ const StyledTextField = styled(TextField)`
 	width: 100%;
 	.MuiInputBase-root {
 		background: ${theme.background.black.light};
-		opacity: 0.5;
 	}
 `;
 

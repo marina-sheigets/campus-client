@@ -16,8 +16,19 @@ import theme from '../../../constants/globalStyles';
 import PersonIcon from '@mui/icons-material/Person';
 import LabelBox from '../../../components/__features__/LabelBox/LabelBox';
 import Form from '../../../components/__atoms__/Form/Form';
+import {
+	createStudentAction,
+	clearStudentStatusMessageAction,
+} from '../../../redux/api/ApiActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStudentStatus } from '../../../redux/selectors/admin';
+import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
 
 function Content() {
+	const dispatch = useDispatch();
+
+	const status = useSelector(getStudentStatus);
+
 	const [years, setYears] = useState<number[]>([]);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -29,8 +40,6 @@ function Content() {
 	const [specialty, setSpecialty] = useState('');
 	const [type, setType] = useState('');
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const regEx = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 	const handleChangeName = (e: any) => setName(e.target.value);
 	const handleChangeEmail = (e: any) => setEmail(e.target.value);
 	const handleChangePhoneNumber = (e: any) => setPhoneNumber(e.target.value);
@@ -44,7 +53,28 @@ function Content() {
 	const handleChangeSpecialty = (event: SelectChangeEvent) =>
 		setSpecialty(event.target.value as string);
 	const handleChangeType = (event: SelectChangeEvent) => setType(event.target.value as string);
+	const handleCloseStatusMessage = () => dispatch(clearStudentStatusMessageAction.request());
 
+	const handleCreateUser = () => {
+		dispatch(
+			createStudentAction.request({
+				name,
+				email,
+				phoneNumber,
+				yearOfAdmission,
+				group,
+				faculty,
+				cathedra,
+				specialty,
+				type,
+			})
+		);
+	};
+	const severity = useMemo(
+		() => (status === 'Student was successfully created' ? 'success' : 'error'),
+		[status]
+	);
+	const regEx = useMemo(() => /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/, []);
 	const isAllCompleted = useMemo(
 		() =>
 			name.trim().length &&
@@ -190,7 +220,7 @@ function Content() {
 								placeholder='Select specialty'
 								value={specialty}
 								onChange={handleChangeSpecialty}>
-								{[].map((item, index) => (
+								{['122 Computer science'].map((item, index) => (
 									<MenuItem key={index} value={item}>
 										{item}
 									</MenuItem>
@@ -204,7 +234,7 @@ function Content() {
 								placeholder='Select type of studying'
 								value={type}
 								onChange={handleChangeType}>
-								{[].map((item, index) => (
+								{['Budget'].map((item, index) => (
 									<MenuItem key={index} value={item}>
 										{item}
 									</MenuItem>
@@ -214,12 +244,28 @@ function Content() {
 					</Column>
 				</FormBox>
 			</Forms>
-			<FinishButton disabled={!isAllCompleted} variant='contained'>
-				Finish
-			</FinishButton>
+			<Result>
+				<FinishButton
+					disabled={!isAllCompleted || status}
+					variant='contained'
+					onClick={handleCreateUser}>
+					Finish
+				</FinishButton>
+				<StyledStatusAlert
+					status={status}
+					severity={severity}
+					handleCloseStatusMessage={handleCloseStatusMessage}
+				/>
+			</Result>
 		</CreatePageWrapper>
 	);
 }
+const Result = styled('div')`
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	width: 600px;
+`;
 
 const StyledForm = styled(Form)`
 	.MuiInputBase-input {
@@ -227,7 +273,13 @@ const StyledForm = styled(Form)`
 		border: none;
 	}
 `;
-
+const StyledStatusAlert = styled(StatusAlert)`
+	.MuiSnackbar-root {
+		background: green;
+		bottom: 3rem;
+		right: 2rem;
+	}
+`;
 const TextFieldWithIcon = styled(TextField)`
 	div {
 		background: ${theme.background.black.light};

@@ -18,7 +18,7 @@ function* checkUserAuth() {
 		const res = yield call(checkUserAuthRequest);
 		yield put(signInAction.success(res));
 	} catch ({ message }: any) {
-		yield put(signInAction.failed({ message }));
+		yield put(checkUserAuthAction.failed({ message }));
 	}
 }
 

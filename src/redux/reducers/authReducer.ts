@@ -1,4 +1,4 @@
-import { clearAuthErrorAction, signInAction } from '../api/ApiActions';
+import { checkUserAuthAction, clearAuthErrorAction, signInAction } from '../api/ApiActions';
 import { Student, Teacher } from '../types/auth';
 
 type InitialState = {
@@ -25,6 +25,14 @@ const authReducer = (state = initialState, action: any) => {
 			}
 			return { ...state, authError: action.payload.data.message };
 		}
+		case signInAction.type.FAILED: {
+			return { ...state, authError: 'Something went wrong' };
+		}
+
+		case checkUserAuthAction.type.FAILED: {
+			return { ...state, authError: 'Session is expired. Sign in again' };
+		}
+
 		case clearAuthErrorAction.type.REQUEST: {
 			return {
 				...state,
