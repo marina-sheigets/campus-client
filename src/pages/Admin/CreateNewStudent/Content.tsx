@@ -23,6 +23,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentStatus } from '../../../redux/selectors/admin';
 import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
+import ResultBlock from '../../../components/__atoms__/Result/Result';
 
 function Content() {
 	const dispatch = useDispatch();
@@ -244,7 +245,7 @@ function Content() {
 					</Column>
 				</FormBox>
 			</Forms>
-			<Result>
+			<ResultBlock>
 				<FinishButton
 					disabled={!isAllCompleted || status}
 					variant='contained'
@@ -256,16 +257,10 @@ function Content() {
 					severity={severity}
 					handleCloseStatusMessage={handleCloseStatusMessage}
 				/>
-			</Result>
+			</ResultBlock>
 		</CreatePageWrapper>
 	);
 }
-const Result = styled('div')`
-	display: flex;
-	align-items: center;
-	gap: 1.5rem;
-	width: 600px;
-`;
 
 const StyledForm = styled(Form)`
 	.MuiInputBase-input {

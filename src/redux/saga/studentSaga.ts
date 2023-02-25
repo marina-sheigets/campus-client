@@ -5,7 +5,6 @@ import { StudentRegistration } from '../types/student';
 
 function* createStudent(action: { type: string; payload: StudentRegistration }) {
 	try {
-		console.log('saga');
 		// @ts-ignore
 		const res = yield call(createStudentRequest, { ...action.payload });
 		yield put(createStudentAction.success(res));
