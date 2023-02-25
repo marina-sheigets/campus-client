@@ -25,7 +25,7 @@ function StatusAlert({ status, handleCloseStatusMessage, severity }: StatusAlert
 
 const StyledAlert = styled(Alert)`
 	.MuiPaper-root {
-		width: auto;
+		width: auto !important;
 	}
 `;
 export default StatusAlert;

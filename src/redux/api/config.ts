@@ -8,29 +8,40 @@ const $api = axios.create({
 	},
 });
 
-$api.interceptors.request.use((config) => {
-	config.headers.Authorization = localStorage.getItem('token');
-	return config;
-});
+$api.interceptors.request.use(
+	(config) => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			config.headers.Authorization = token;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	}
+);
 
 $api.interceptors.response.use(
-	(config) => {
-		return config;
+	(res) => {
+		return res;
 	},
 	async (error) => {
 		const initialRequest = error.config;
-		if (error?.response.status === 401) {
-			try {
-				const response = await axios.get(`${API_URL}/auth/refresh`, {
-					withCredentials: true,
-				});
-				localStorage.setItem('token', response.data.accessToken);
-				return $api.request(initialRequest);
-			} catch (e) {
-				return Promise.reject(e);
+		if (initialRequest.url !== '/auth/login' && error.response) {
+			if (error?.response.status === 401 && !initialRequest._retry) {
+				initialRequest._retry = true;
+				try {
+					const response = await axios.get(`${API_URL}/auth/refresh`, {
+						withCredentials: true,
+					});
+					localStorage.setItem('token', response.data.accessToken);
+					return $api.request(initialRequest);
+				} catch (e) {
+					return Promise.reject(e);
+				}
 			}
+			return Promise.reject(error);
 		}
-		return Promise.reject(error);
 	}
 );
 
