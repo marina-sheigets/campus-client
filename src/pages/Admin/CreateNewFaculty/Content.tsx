@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material';
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
 import CreatePageWrapper from '../../../components/__atoms__/CreatePageWrapper/CreatePageWrapper';
@@ -10,8 +10,55 @@ import LabelBox from '../../../components/__features__/LabelBox/LabelBox';
 import Form from '../../../components/__atoms__/Form/Form';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
 import ListOfFaculties from './ListOfFaculties';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	clearFacultyStatusMessageAction,
+	createFacultyAction,
+	getListOfFacultiesAction,
+} from '../../../redux/api/ApiActions';
+import ResultBlock from '../../../components/__atoms__/Result/Result';
+import { getFacultyStatusMessage } from '../../../redux/selectors/admin';
+import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
 
 function Content() {
+	const dispatch = useDispatch();
+
+	const status = useSelector(getFacultyStatusMessage);
+
+	const [name, setName] = useState('');
+	const [abbreviation, setAbbreviation] = useState('');
+
+	const handleChangeName = (e: any) => setName(e.target.value);
+	const handleChangeAbbreviation = (e: any) => setAbbreviation(e.target.value);
+
+	const isAllCompleted = useMemo(
+		() => abbreviation.trim().length && name.trim().length,
+		[abbreviation, name]
+	);
+
+	const severity = useMemo(
+		() => (status === 'Faculty was created successfully !' ? 'success' : 'error'),
+		[status]
+	);
+
+	const createFaculty = () => {
+		dispatch(createFacultyAction.request({ name, abbreviation }));
+	};
+
+	const handleCloseStatusMessage = () => dispatch(clearFacultyStatusMessageAction.request());
+
+	useEffect(() => {
+		if (severity === 'success') {
+			setName('');
+			setAbbreviation('');
+			dispatch(getListOfFacultiesAction.request());
+		}
+	}, [severity, dispatch]);
+
+	useEffect(() => {
+		dispatch(getListOfFacultiesAction.request());
+	}, [dispatch]);
+
 	return (
 		<CreatePageWrapper>
 			<TitleBox>
@@ -25,23 +72,49 @@ function Content() {
 					<Column>
 						<StyledForm>
 							<LabelBox label={'Name'} />
-							<TextField size='small' placeholder={'Enter faculty name '} />
+							<TextField
+								value={name}
+								onChange={handleChangeName}
+								size='small'
+								placeholder={'Enter faculty name '}
+							/>
 						</StyledForm>
 					</Column>
 
 					<Column>
 						<StyledForm>
 							<LabelBox label={'Abbreviation'} />
-							<TextField size='small' placeholder={'Enter abbreviation of faculty'} />
+							<TextField
+								value={abbreviation}
+								onChange={handleChangeAbbreviation}
+								size='small'
+								placeholder={'Enter abbreviation of faculty'}
+							/>
 						</StyledForm>
 					</Column>
 				</FormBox>
 			</Forms>
-			<FinishButton variant='contained'>Finish</FinishButton>
+			<ResultBlock>
+				<FinishButton
+					variant='contained'
+					onClick={createFaculty}
+					disabled={!isAllCompleted || !!status}>
+					Finish
+				</FinishButton>
+				<StyledStatusAlert
+					status={status}
+					severity={severity}
+					handleCloseStatusMessage={handleCloseStatusMessage}
+				/>
+			</ResultBlock>
 			<ListOfFaculties />
 		</CreatePageWrapper>
 	);
 }
+
+const StyledStatusAlert = styled(StatusAlert)`
+	width: auto;
+`;
 
 const StyledForm = styled(Form)`
 	.MuiInputBase-input {
