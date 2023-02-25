@@ -11,3 +11,9 @@ export const clearFacultyStatusMessageAction = createActions('CLEAR_FACULTY_STAT
 export const getListOfFacultiesAction = createActions('GET_LIST_OF_FACULTIES');
 export const deleteFacultyAction = createActions('DELETE_FACULTY');
 export const clearFacultyDeleteStatusAction = createActions('CLEAR_FACULTY_DELETE_STATUS');
+
+export const createCathedraAction = createActions('CREATE_CATHEDRA');
+export const clearCathedraStatusMessageAction = createActions('CLEAR_CATHEDRA_STATUS_MESSAGE');
+export const getListOfCathedrasAction = createActions('GET_LIST_OF_CATHEDRAS');
+export const deleteCathedraAction = createActions('DELETE_CATHEDRA');
+export const clearCathedraDeleteStatusAction = createActions('CLEAR_CATHEDRA_DELETE_STATUS');

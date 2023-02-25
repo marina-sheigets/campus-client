@@ -10,22 +10,25 @@ type StatusAlertProps = {
 };
 function StatusAlert({ status, handleCloseStatusMessage, severity }: StatusAlertProps) {
 	return (
-		<>
+		<Wrapper>
 			{status && status !== 'Started' && (
-				<StyledAlert
+				<Alert
 					onClose={handleCloseStatusMessage}
 					severity={severity}
 					sx={{ width: '100%' }}>
 					{status}
-				</StyledAlert>
+				</Alert>
 			)}
-		</>
+		</Wrapper>
 	);
 }
 
-const StyledAlert = styled(Alert)`
+const Wrapper = styled('div')`
 	.MuiPaper-root {
 		width: auto !important;
+	}
+	.MuiAlert-message {
+		min-width:300px;
 	}
 `;
 export default StatusAlert;

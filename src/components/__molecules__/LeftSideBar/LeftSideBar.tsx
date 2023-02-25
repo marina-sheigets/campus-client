@@ -26,6 +26,10 @@ const LINKS = [
 	},
 	{
 		id: 6,
+		name: 'Add Cathedra',
+	},
+	{
+		id: 7,
 		name: 'Add Subject',
 	},
 ];
@@ -54,6 +58,9 @@ function LeftSideBar() {
 				navigate('/new/faculty');
 				break;
 			case LINKS[5].name:
+				navigate('/new/cathedra');
+				break;
+			case LINKS[6].name:
 				navigate('/new/subject');
 				break;
 		}
@@ -78,8 +85,11 @@ function LeftSideBar() {
 			case '/new/faculty':
 				location = LINKS[4].id;
 				break;
-			case '/new/subject':
+			case '/new/cathedra':
 				location = LINKS[5].id;
+				break;
+			case '/new/subject':
+				location = LINKS[6].id;
 				break;
 		}
 		setCurrentPath(location);
