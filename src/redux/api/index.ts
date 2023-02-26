@@ -1,3 +1,4 @@
+import axios from 'axios';
 import $api from './config';
 
 export const signInRequest = async ({ email, password }: { email: string; password: string }) => {
@@ -14,7 +15,8 @@ export const signInRequest = async ({ email, password }: { email: string; passwo
 
 export const checkUserAuthRequest = async () => {
 	try {
-		const response = await $api.get('/auth/refresh');
+		const response = await axios.get('/auth/refresh');
+
 		return { success: true, data: response.data };
 	} catch (err: any) {
 		return {

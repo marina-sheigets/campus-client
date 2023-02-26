@@ -56,8 +56,6 @@ const cathedraReducer = (state = initialState, action: AnyAction) => {
 		}
 
 		case getListOfCathedrasAction.type.SUCCESS: {
-			console.log(action.payload);
-
 			if (!action.payload.cathedras.length) {
 				return state;
 			}
@@ -73,7 +71,6 @@ const cathedraReducer = (state = initialState, action: AnyAction) => {
 			return { ...state, cathedrasList: arr };
 		}
 		case getListOfCathedrasAction.type.FAILED: {
-			console.log(action.payload);
 			return state;
 		}
 

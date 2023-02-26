@@ -52,9 +52,7 @@ function Login() {
 		if (localStorage.getItem('token')) {
 			dispatch(checkUserAuthAction.request());
 		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<Wrapper>

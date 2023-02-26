@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, memo } from 'react';
 import {
 	Table,
 	TableBody,
@@ -14,7 +14,11 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Faculty } from '../../../redux/types/faculty';
 import DeleteModal from '../../../components/__features__/DeleteModal/DeleteModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFacultyAction, clearFacultyDeleteStatusAction } from '../../../redux/api/ApiActions';
+import {
+	deleteFacultyAction,
+	clearFacultyDeleteStatusAction,
+	getListOfFacultiesAction,
+} from '../../../redux/api/ApiActions';
 import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
 import { getFacultyDeleteStatusMessage, getListOfFaculties } from '../../../redux/selectors/admin';
 
@@ -27,26 +31,32 @@ function ListOfFaculties() {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState<Faculty>();
 
-	const handleAskDeleteFaculty = (faculty: Faculty) => {
+	const handleAskDeleteFaculty = useCallback((faculty: Faculty) => {
 		setItemToDelete(faculty);
 		setIsDeleteModalOpen(true);
-	};
+	}, []);
 
 	const handleClose = () => setIsDeleteModalOpen(false);
 
-	const handleDeleteFaculty = () => {
+	const handleDeleteFaculty = useCallback(() => {
 		handleClose();
 		dispatch(deleteFacultyAction.request({ id: itemToDelete?.id }));
-	};
+	}, [dispatch, itemToDelete]);
 
-	const handleCloseDeleteStatusMessage = () => {
+	const handleCloseDeleteStatusMessage = useCallback(() => {
 		dispatch(clearFacultyDeleteStatusAction.request());
-	};
+	}, [dispatch]);
 
 	const severity = useMemo(
 		() => (deleteStatus.includes('successfully') ? 'success' : 'error'),
 		[deleteStatus]
 	);
+
+	useEffect(() => {
+		if (!faculties.length) dispatch(getListOfFacultiesAction.request());
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dispatch]);
 
 	return (
 		<Wrapper>
@@ -125,4 +135,4 @@ const StyledTableRow = styled(TableRow)`
 const TableHeaderCell = styled(TableCell)`
 	background: ${theme.background.black.light};
 `;
-export default ListOfFaculties;
+export default memo(ListOfFaculties);

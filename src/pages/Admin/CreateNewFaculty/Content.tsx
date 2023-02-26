@@ -1,5 +1,5 @@
 import { Button, TextField } from '@mui/material';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, memo, useEffect } from 'react';
 import styled from 'styled-components';
 import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
 import CreatePageWrapper from '../../../components/__atoms__/CreatePageWrapper/CreatePageWrapper';
@@ -31,7 +31,7 @@ function Content() {
 	const handleChangeName = (e: any) => setName(e.target.value);
 	const handleChangeAbbreviation = (e: any) => setAbbreviation(e.target.value);
 
-	const isAllCompleted = useMemo(
+	const isAllCompleted = useCallback(
 		() => abbreviation.trim().length && name.trim().length,
 		[abbreviation, name]
 	);
@@ -41,11 +41,14 @@ function Content() {
 		[status]
 	);
 
-	const createFaculty = () => {
+	const createFaculty = useCallback(() => {
 		dispatch(createFacultyAction.request({ name, abbreviation }));
-	};
+	}, [dispatch, name, abbreviation]);
 
-	const handleCloseStatusMessage = () => dispatch(clearFacultyStatusMessageAction.request());
+	const handleCloseStatusMessage = useCallback(
+		() => dispatch(clearFacultyStatusMessageAction.request()),
+		[dispatch]
+	);
 
 	useEffect(() => {
 		if (severity === 'success') {
@@ -54,10 +57,6 @@ function Content() {
 			dispatch(getListOfFacultiesAction.request());
 		}
 	}, [severity, dispatch]);
-
-	useEffect(() => {
-		dispatch(getListOfFacultiesAction.request());
-	}, [dispatch]);
 
 	return (
 		<CreatePageWrapper>
@@ -140,4 +139,4 @@ const FinishButton = styled(Button)`
 	margin-top: 2rem;
 	margin-bottom: 1rem;
 `;
-export default Content;
+export default memo(Content);

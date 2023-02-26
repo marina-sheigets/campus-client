@@ -1,5 +1,5 @@
 import { Button, Select, TextField, MenuItem } from '@mui/material';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
 import CreatePageWrapper from '../../../components/__atoms__/CreatePageWrapper/CreatePageWrapper';
@@ -54,7 +54,10 @@ function Content() {
 		setFaculty(e.target.value);
 	};
 
-	const handleCloseStatusMessage = () => dispatch(clearCathedraStatusMessageAction.request());
+	const handleCloseStatusMessage = useCallback(
+		() => dispatch(clearCathedraStatusMessageAction.request()),
+		[dispatch]
+	);
 
 	const isAllCompleted = useMemo(
 		() => abbreviation.trim().length && name.trim().length && faculty.length,
@@ -66,9 +69,9 @@ function Content() {
 		[status]
 	);
 
-	const createCathedra = () => {
+	const createCathedra = useCallback(() => {
 		dispatch(createCathedraAction.request({ name, abbreviation, facultyName: faculty }));
-	};
+	}, [dispatch, name, abbreviation, faculty]);
 
 	useEffect(() => {
 		if (severity === 'success') {

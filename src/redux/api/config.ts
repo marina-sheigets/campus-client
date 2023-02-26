@@ -27,7 +27,7 @@ $api.interceptors.response.use(
 	},
 	async (error) => {
 		const initialRequest = error.config;
-		if (initialRequest.url !== '/auth/login' && error.response) {
+		if (initialRequest.url !== '/auth/login') {
 			if (error?.response.status === 401 && !initialRequest._retry) {
 				initialRequest._retry = true;
 				try {
@@ -45,4 +45,27 @@ $api.interceptors.response.use(
 	}
 );
 
+axios.interceptors.response.use(
+	(res) => {
+		return res;
+	},
+	async (error) => {
+		const initialRequest = error.config;
+		if (initialRequest.url !== '/auth/login') {
+			if (error?.response.status === 401 && !initialRequest._retry) {
+				initialRequest._retry = true;
+				try {
+					const response = await axios.get(`${API_URL}/auth/refresh`, {
+						withCredentials: true,
+					});
+					localStorage.setItem('token', response.data.accessToken);
+					return axios.request(initialRequest);
+				} catch (e) {
+					return Promise.reject(e);
+				}
+			}
+			return Promise.reject(error);
+		}
+	}
+);
 export default $api;
