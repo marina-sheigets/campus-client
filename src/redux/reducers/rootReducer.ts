@@ -1,4 +1,7 @@
-import { combineReducers, StateFromReducersMapObject } from '@reduxjs/toolkit';
+import {
+    combineReducers,
+    type StateFromReducersMapObject,
+} from '@reduxjs/toolkit';
 import students from './studentReducer';
 import auth from './authReducer';
 import faculty from './facultyReducer';

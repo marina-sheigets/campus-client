@@ -6,7 +6,7 @@ import cathedraSaga from './cathedraSaga';
 
 const sagasArray = [studentSaga(), authSaga(), facultySaga(), cathedraSaga()];
 function* rootSaga() {
-	yield all(sagasArray);
+    yield all(sagasArray);
 }
 
 export default rootSaga;

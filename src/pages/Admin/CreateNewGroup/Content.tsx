@@ -12,68 +12,72 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import ListOfGroups from './ListOfGroups';
 
 function Content() {
-	return (
-		<CreatePageWrapper>
-			<TitleBox>
-				<CreatePageTitle>
-					<GroupAddOutlinedIcon fontSize='large' />
-					Add New Group
-				</CreatePageTitle>
-			</TitleBox>
-			<Forms>
-				<FormBox>
-					<Column>
-						<StyledForm>
-							<LabelBox label={'Name'} />
-							<TextField size='small' placeholder={'Enter group name '} />
-						</StyledForm>
-					</Column>
+    return (
+        <CreatePageWrapper>
+            <TitleBox>
+                <CreatePageTitle>
+                    <GroupAddOutlinedIcon fontSize="large" />
+                    Add New Group
+                </CreatePageTitle>
+            </TitleBox>
+            <Forms>
+                <FormBox>
+                    <Column>
+                        <StyledForm>
+                            <LabelBox label={'Name'} />
+                            <TextField
+                                size="small"
+                                placeholder={'Enter group name '}
+                            />
+                        </StyledForm>
+                    </Column>
 
-					<Column>
-						<StyledForm>
-							<LabelBox label={'Curator'} />
-							<Select
-								size='small'
-								placeholder='Select teacher'
-								value={''}
-								onChange={() => {}}>
-								{[].map((year, index) => (
-									<MenuItem key={index}>{year}</MenuItem>
-								))}
-							</Select>
-						</StyledForm>
-					</Column>
-				</FormBox>
-			</Forms>
-			<FinishButton variant='contained'>Finish</FinishButton>
+                    <Column>
+                        <StyledForm>
+                            <LabelBox label={'Curator'} />
+                            <Select
+                                size="small"
+                                placeholder="Select teacher"
+                                value={''}
+                                onChange={() => {}}
+                            >
+                                {[].map((year, index) => (
+                                    <MenuItem key={index}>{year}</MenuItem>
+                                ))}
+                            </Select>
+                        </StyledForm>
+                    </Column>
+                </FormBox>
+            </Forms>
+            <FinishButton variant="contained">Finish</FinishButton>
 
-			<ListOfGroups />
-		</CreatePageWrapper>
-	);
+            <ListOfGroups />
+        </CreatePageWrapper>
+    );
 }
 
 const StyledForm = styled(Form)`
-	.MuiInputBase-input {
-		background: ${theme.background.black.light};
-		border: none;
-	}
+    .MuiInputBase-input {
+        background: ${theme.background.black.light};
+        border: none;
+    }
 `;
 
 const Column = styled('div')`
-	display: flex;
-	gap: 1.5rem;
-	flex-direction: column;
-	width: 45%;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    width: 45%;
 `;
 
 const FormBox = styled('div')`
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const FinishButton = styled(Button)`
-	width: 300px;
-	margin-top: 2rem;
-	margin-bottom: 1rem;
+    width: 300px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 `;
 export default Content;

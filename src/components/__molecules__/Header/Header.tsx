@@ -6,67 +6,73 @@ import iconBack from '../../../assets/exit-to-app.png';
 import theme from '../../../constants/globalStyles';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../redux/selectors/auth';
-import { Student, Teacher, Admin } from '../../../redux/types/auth';
+import type { Student, Teacher, Admin } from '../../../redux/types/auth';
 import { BiCrown } from 'react-icons/bi';
 function Header() {
-	const user: Admin | Student | Teacher = useSelector(getUser);
+    const user: Admin | Student | Teacher = useSelector(getUser);
 
-	return (
-		<Wrapper>
-			<Logo src={logo} />
-			<h3>Welcome, {user.name}</h3>
+    return (
+        <Wrapper>
+            <Logo src={logo} />
+            <h3>Welcome, {user.name}</h3>
 
-			<Tools>
-				<ToolsItems>
-					{user.isAdmin ? (
-						<Tooltip title='You`re admin !' placement='bottom' arrow>
-							<span>
-								<BiCrown />
-							</span>
-						</Tooltip>
-					) : null}
+            <Tools>
+                <ToolsItems>
+                    {user.isAdmin ? (
+                        <Tooltip
+                            title="You`re admin !"
+                            placement="bottom"
+                            arrow
+                        >
+                            <span>
+                                <BiCrown />
+                            </span>
+                        </Tooltip>
+                    ) : null}
 
-					<MyProfileButton variant='contained'>My Profile</MyProfileButton>
-					<IconButton src={iconBack} />
-				</ToolsItems>
-			</Tools>
-		</Wrapper>
-	);
+                    <MyProfileButton variant="contained">
+                        My Profile
+                    </MyProfileButton>
+                    <IconButton src={iconBack} />
+                </ToolsItems>
+            </Tools>
+        </Wrapper>
+    );
 }
 
 const MyProfileButton = styled(Button)`
-	background: ${theme.background.black.middle} !important;
-	opacity: 0.5;
-	cursor: pointer;
+    background: ${theme.background.black.middle} !important;
+    opacity: 0.5;
+    cursor: pointer;
 `;
 
 const IconButton = styled('img')``;
 const Tools = styled('div')`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 const ToolsItems = styled('div')`
-	display: flex;
-	gap: 1rem;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
 
-	svg {
-		fill: ${theme.background.gold.primary};
-		width: 30px;
-		height: 30px;
-	}
+    svg {
+        fill: ${theme.background.gold.primary};
+        width: 30px;
+        height: 30px;
+    }
 `;
 const Logo = styled('img')`
-	width: 60px;
-	cursor: pointer;
+    width: 60px;
+    cursor: pointer;
 `;
 const Wrapper = styled('div')`
-	display: flex;
-	padding: 0 1rem;
-	justify-content: space-between;
-	align-items: center;
-	box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.3);
+    display: flex;
+    padding: 0 1rem;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.3);
 `;
 export default Header;

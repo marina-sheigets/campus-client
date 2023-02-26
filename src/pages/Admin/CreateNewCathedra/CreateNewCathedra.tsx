@@ -3,9 +3,11 @@ import CreatePageSkeleton from '../../../components/__molecules__/CreatePageSkel
 import Content from './Content';
 
 function CreateNewFaculty() {
-	return (
-		<CreatePageSkeleton><Content/></CreatePageSkeleton>
-	);
+    return (
+        <CreatePageSkeleton>
+            <Content />
+        </CreatePageSkeleton>
+    );
 }
 
 export default CreateNewFaculty;
