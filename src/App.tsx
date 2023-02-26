@@ -6,6 +6,7 @@ import CreateNewArticle from './pages/Admin/CreateNewArticle/CreateNewArticle';
 import CreateNewCathedra from './pages/Admin/CreateNewCathedra/CreateNewCathedra';
 import CreateNewFaculty from './pages/Admin/CreateNewFaculty/CreateNewFaculty';
 import CreateNewGroup from './pages/Admin/CreateNewGroup/CreateNewGroup';
+import CreateNewSpecialty from './pages/Admin/CreateNewSpecialty/CreateNewSpecialty';
 import CreateNewStudent from './pages/Admin/CreateNewStudent/CreateNewStudent';
 import CreateNewSubject from './pages/Admin/CreateNewSubject/CreateNewSubject';
 import CreateNewTeacher from './pages/Admin/CreateNewTeacher/CreateNewTeacher';
@@ -27,6 +28,10 @@ function App() {
                     <Route
                         path="/new/cathedra"
                         element={<CreateNewCathedra />}
+                    />
+                    <Route
+                        path="/new/specialty"
+                        element={<CreateNewSpecialty />}
                     />
                 </Routes>
             </BrowserRouter>

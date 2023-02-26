@@ -15,3 +15,10 @@ export const getListOfCathedras = (state: RootState) =>
     state.cathedra.cathedrasList;
 export const getCathedraDeleteStatusMessage = (state: RootState) =>
     state.cathedra.deleteStatus;
+
+export const getSpecialtyStatusMessage = (state: RootState) =>
+    state.specialty.status;
+export const getListOfSpecialties = (state: RootState) =>
+    state.specialty.specialtiesList;
+export const getSpecialtyDeleteStatusMessage = (state: RootState) =>
+    state.specialty.deleteStatus;

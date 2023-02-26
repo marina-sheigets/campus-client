@@ -32,6 +32,10 @@ const LINKS = [
         id: 7,
         name: 'Add Subject',
     },
+    {
+        id: 8,
+        name: 'Add Specialty',
+    },
 ];
 
 function LeftSideBar() {
@@ -65,6 +69,9 @@ function LeftSideBar() {
             case LINKS[6].name:
                 navigate('/new/subject');
                 break;
+            case LINKS[7].name:
+                navigate('/new/specialty');
+                break;
         }
     }, [path, navigate]);
 
@@ -92,6 +99,9 @@ function LeftSideBar() {
                 break;
             case '/new/subject':
                 location = LINKS[6].id;
+                break;
+            case '/new/specialty':
+                location = LINKS[7].id;
                 break;
         }
         setCurrentPath(location);

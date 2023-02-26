@@ -27,3 +27,15 @@ export const deleteCathedraAction = createActions('DELETE_CATHEDRA');
 export const clearCathedraDeleteStatusAction = createActions(
     'CLEAR_CATHEDRA_DELETE_STATUS'
 );
+
+export const createSpecialtyAction = createActions('CREATE_SPECIALTY');
+export const clearSpecialtyStatusMessageAction = createActions(
+    'CLEAR_SPECIALTY_STATUS_MESSAGE'
+);
+export const getListOfSpecialtiesAction = createActions(
+    'GET_LIST_OF_SPECIALTIES'
+);
+export const deleteSpecialtyAction = createActions('DELETE_SPECIALTY');
+export const clearSpecialtyDeleteStatusAction = createActions(
+    'CLEAR_SPECIALTY_DELETE_STATUS'
+);
