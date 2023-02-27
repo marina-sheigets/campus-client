@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import logo from '../../../assets/5920.jpg';
 import { Button, Tooltip } from '@mui/material';
 import iconBack from '../../../assets/exit-to-app.png';
 import theme from '../../../constants/globalStyles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../../redux/selectors/auth';
 import type { Student, Teacher, Admin } from '../../../redux/types/auth';
 import { BiCrown } from 'react-icons/bi';
+import { checkUserAuthAction } from '../../../redux/api/ApiActions';
 function Header() {
+    const dispatch = useDispatch();
+
     const user: Admin | Student | Teacher = useSelector(getUser);
+
+    useEffect(() => {
+        dispatch(checkUserAuthAction.request());
+    }, []);
 
     return (
         <Wrapper>
