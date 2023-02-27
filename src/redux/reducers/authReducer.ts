@@ -9,11 +9,13 @@ interface InitialState {
     user: Student | Teacher | Record<string, unknown>;
     authError: string;
     isAuth: boolean;
+    isAuthInProgress: boolean;
 }
 const initialState: InitialState = {
     user: {},
     authError: '',
     isAuth: false,
+    isAuthInProgress: true,
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -27,14 +29,26 @@ const authReducer = (state = initialState, action: any) => {
                     isAuth: true,
                 };
             }
-            return { ...state, authError: action.payload.data.message };
+            return {
+                ...state,
+                authError: action.payload.data.message,
+                isAuthInProgress: false,
+            };
         }
         case signInAction.type.FAILED: {
-            return { ...state, authError: 'Something went wrong' };
+            return {
+                ...state,
+                authError: 'Something went wrong',
+                isAuthInProgress: false,
+            };
         }
 
         case checkUserAuthAction.type.FAILED: {
-            return { ...state, authError: 'Session is expired. Sign in again' };
+            return {
+                ...state,
+                authError: 'Session is expired. Sign in again',
+                isAuthInProgress: false,
+            };
         }
 
         case clearAuthErrorAction.type.REQUEST: {

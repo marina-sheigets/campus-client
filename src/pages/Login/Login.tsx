@@ -4,20 +4,27 @@ import styled from 'styled-components';
 import img from '../../assets/login.jpg';
 import logo from '../../assets/5920.jpg';
 import theme from '../../constants/globalStyles';
-import { TextField, Alert } from '@mui/material';
+import { TextField, Alert, CircularProgress } from '@mui/material';
 import Button from '@mui/material/Button';
 import {
     signInAction,
     clearAuthErrorAction,
     checkUserAuthAction,
 } from '../../redux/api/ApiActions';
-import { getAuthError, getIsAuth } from '../../redux/selectors/auth';
+import {
+    getAuthError,
+    getIsAuth,
+    getIsAuthInProgress,
+} from '../../redux/selectors/auth';
 import { useNavigate } from 'react-router';
+import LoaderWrapper from '../../components/__atoms__/LoaderWrapper/LoaderWrapper';
 
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const isAuthInProgress = useSelector(getIsAuthInProgress);
     const authError = useSelector(getAuthError);
     const isAuth = useSelector(getIsAuth);
 
@@ -54,7 +61,15 @@ function Login() {
         if (localStorage.getItem('token')) {
             dispatch(checkUserAuthAction.request());
         }
-    }, [dispatch]);
+    }, []);
+
+    if (isAuthInProgress) {
+        return (
+            <LoaderWrapper>
+                <CircularProgress />
+            </LoaderWrapper>
+        );
+    }
 
     return (
         <Wrapper>

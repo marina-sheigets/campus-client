@@ -1,5 +1,4 @@
 import axios from 'axios';
-import $api from './config';
 
 export const signInRequest = async ({
     email,
@@ -9,7 +8,7 @@ export const signInRequest = async ({
     password: string;
 }) => {
     try {
-        const response = await $api.post('/auth/login', { email, password });
+        const response = await axios.post('/auth/login', { email, password });
         return { success: true, data: response.data };
     } catch (err: any) {
         return {

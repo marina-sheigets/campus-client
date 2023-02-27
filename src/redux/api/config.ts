@@ -27,7 +27,7 @@ $api.interceptors.response.use(
     },
     async (error) => {
         const initialRequest = error.config;
-        if (initialRequest.url !== '/auth/login') {
+        if (initialRequest.url !== '/auth/refresh') {
             if (error?.response.status === 401 && !initialRequest._retry) {
                 initialRequest._retry = true;
                 try {
@@ -54,7 +54,7 @@ axios.interceptors.response.use(
     },
     async (error) => {
         const initialRequest = error.config;
-        if (initialRequest.url !== '/auth/login') {
+        if (initialRequest.url !== '/auth/refresh') {
             if (error?.response.status === 401 && !initialRequest._retry) {
                 initialRequest._retry = true;
                 try {
