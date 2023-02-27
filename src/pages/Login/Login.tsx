@@ -46,7 +46,7 @@ function Login() {
 
     useEffect(() => {
         if (isAuth) {
-            navigate('/new/student');
+            navigate('/new/article');
         }
     }, [isAuth, navigate]);
 
