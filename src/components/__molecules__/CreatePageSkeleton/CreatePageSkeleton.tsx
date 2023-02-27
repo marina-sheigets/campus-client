@@ -14,13 +14,13 @@ function CreatePageSkeleton({ children }: CreatePageSkeletonProps) {
             <Header />
             <Main>
                 <LeftSideBar />
+
                 {children}
             </Main>
         </Wrapper>
     );
 }
 const Wrapper = styled('div')`
-    width: 100vw;
     height: 100vh;
 `;
 
