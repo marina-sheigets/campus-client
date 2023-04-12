@@ -39,3 +39,13 @@ export const deleteSpecialtyAction = createActions('DELETE_SPECIALTY');
 export const clearSpecialtyDeleteStatusAction = createActions(
     'CLEAR_SPECIALTY_DELETE_STATUS'
 );
+
+export const createArticleAction = createActions('CREATE_ARTICLE');
+export const clearArticleStatusMessageAction = createActions(
+    'CLEAR_ARTICLE_STATUS_MESSAGE'
+);
+export const getListOfArticlesAction = createActions('GET_LIST_OF_ARTICLES');
+export const deleteArticleAction = createActions('DELETE_ARTICLE');
+export const clearArticleDeleteStatusAction = createActions(
+    'CLEAR_ARTICLE_DELETE_STATUS'
+);

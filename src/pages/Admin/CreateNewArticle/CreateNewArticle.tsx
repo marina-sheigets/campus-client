@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import CreatePageSkeleton from '../../../components/__molecules__/CreatePageSkeleton/CreatePageSkeleton';
 import styled from 'styled-components';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
@@ -11,8 +11,21 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import CreatePageWrapper from '../../../components/__atoms__/CreatePageWrapper/CreatePageWrapper';
 import TitleBox from '../../../components/__atoms__/TitleBox/TitleBox';
 import CreatePageTitle from '../../../components/__atoms__/CreatePageTitle/CreatePageTitle';
+import {
+    clearArticleStatusMessageAction,
+    createArticleAction,
+    getListOfArticlesAction,
+} from '../../../redux/api/ApiActions';
+import { useDispatch, useSelector } from 'react-redux';
+import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
+import ResultBlock from '../../../components/__atoms__/Result/Result';
+import { getArticleStatusMessage } from '../../../redux/selectors/admin';
 
 function CreateNewArticle() {
+    const dispatch = useDispatch();
+
+    const status = useSelector(getArticleStatusMessage);
+
     const [articleName, setArticleName] = useState('');
     const [articleContent, setArticleContent] = useState('');
     const [links, setLinks] = useState([{ id: 1, url: '' }]);
@@ -54,6 +67,26 @@ function CreateNewArticle() {
         setLinks(updatedLinks);
     };
 
+    const createArticle = useCallback(() => {
+        dispatch(
+            createArticleAction.request({
+                name: articleName,
+                content: articleContent,
+                links,
+            })
+        );
+    }, [dispatch, articleName, articleContent, links]);
+
+    const handleCloseStatusMessage = useCallback(
+        () => dispatch(clearArticleStatusMessageAction.request()),
+        [dispatch]
+    );
+
+    const severity = useMemo(
+        () => (status.includes('successfully') ? 'success' : 'error'),
+        [status]
+    );
+
     const currentNameLength = useMemo(() => articleName.length, [articleName]);
     const currentContentLength = useMemo(
         () => articleContent.length,
@@ -63,6 +96,14 @@ function CreateNewArticle() {
         return articleName.trim().length && articleContent.trim().length;
     }, [articleName, articleContent]);
 
+    useEffect(() => {
+        if (severity === 'success') {
+            setArticleName('');
+            setArticleContent('');
+            setLinks([{ id: 1, url: '' }]);
+            dispatch(getListOfArticlesAction.request());
+        }
+    }, [severity, dispatch]);
     return (
         <CreatePageSkeleton>
             <CreatePageWrapper>
@@ -133,9 +174,20 @@ function CreateNewArticle() {
                         ))}
                     </LinkForm>
                 </Forms>
-                <FinishButton disabled={!isAllCompleted} variant="contained">
-                    Finish
-                </FinishButton>
+                <ResultBlock>
+                    <FinishButton
+                        disabled={!isAllCompleted}
+                        variant="contained"
+                        onClick={createArticle}
+                    >
+                        Finish
+                    </FinishButton>
+                    <StatusAlert
+                        status={status}
+                        severity={severity}
+                        handleCloseStatusMessage={handleCloseStatusMessage}
+                    />
+                </ResultBlock>
             </CreatePageWrapper>
         </CreatePageSkeleton>
     );

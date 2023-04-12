@@ -4,6 +4,7 @@ import authSaga from './authSaga';
 import facultySaga from './facultySaga';
 import cathedraSaga from './cathedraSaga';
 import specialtySaga from './specialtySaga';
+import articleSaga from './articleSaga';
 
 const sagasArray = [
     studentSaga(),
@@ -11,6 +12,7 @@ const sagasArray = [
     facultySaga(),
     cathedraSaga(),
     specialtySaga(),
+    articleSaga(),
 ];
 function* rootSaga() {
     yield all(sagasArray);

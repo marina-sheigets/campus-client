@@ -22,3 +22,10 @@ export const getListOfSpecialties = (state: RootState) =>
     state.specialty.specialtiesList;
 export const getSpecialtyDeleteStatusMessage = (state: RootState) =>
     state.specialty.deleteStatus;
+
+export const getArticleStatusMessage = (state: RootState) =>
+    state.article.status;
+export const getListOfArticles = (state: RootState) =>
+    state.article.articlesList;
+export const getArticleDeleteStatusMessage = (state: RootState) =>
+    state.article.deleteStatus;
