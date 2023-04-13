@@ -56,11 +56,11 @@ const articleReducer = (state = initialState, action: AnyAction) => {
         }
 
         case getListOfArticlesAction.type.SUCCESS: {
-            if (!action.payload.faculties.length) {
+            if (!action.payload.articles.length) {
                 return state;
             }
             const arr: Article[] = [];
-            action.payload.faculties.forEach((article: ArticleResponse) => {
+            action.payload.articles.forEach((article: ArticleResponse) => {
                 arr.push({
                     id: article._id,
                     name: article.name,

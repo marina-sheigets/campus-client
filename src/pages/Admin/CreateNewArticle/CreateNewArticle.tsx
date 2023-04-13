@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
 import ResultBlock from '../../../components/__atoms__/Result/Result';
 import { getArticleStatusMessage } from '../../../redux/selectors/admin';
+import ListOfArticles from '../ListOfArticles/ListOfArticles';
 
 function CreateNewArticle() {
     const dispatch = useDispatch();
@@ -67,15 +68,20 @@ function CreateNewArticle() {
         setLinks(updatedLinks);
     };
 
+    const preparedLinks = useMemo(() => {
+        const arrayOfStrings = links.map((link) => link.url);
+        return arrayOfStrings;
+    }, [links]);
+
     const createArticle = useCallback(() => {
         dispatch(
             createArticleAction.request({
                 name: articleName,
                 content: articleContent,
-                links,
+                links: preparedLinks,
             })
         );
-    }, [dispatch, articleName, articleContent, links]);
+    }, [dispatch, articleName, articleContent, preparedLinks]);
 
     const handleCloseStatusMessage = useCallback(
         () => dispatch(clearArticleStatusMessageAction.request()),
@@ -188,6 +194,7 @@ function CreateNewArticle() {
                         handleCloseStatusMessage={handleCloseStatusMessage}
                     />
                 </ResultBlock>
+                <ListOfArticles />
             </CreatePageWrapper>
         </CreatePageSkeleton>
     );
