@@ -8,7 +8,6 @@ import ArticlesTable from '../ArticlesTable/ArticlesTable';
 function ListOfArticles() {
     const dispatch = useDispatch();
     const articlesList = useSelector(getListOfArticles);
-    console.log(articlesList);
     useEffect(() => {
         dispatch(getListOfArticlesAction.request());
     }, []);

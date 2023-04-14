@@ -36,11 +36,13 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
         <Wrapper>
             <Table>
                 <TableHead>
-                    <TableCell>Id</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Content</TableCell>
-                    <TableCell>Links</TableCell>
-                    <TableCell></TableCell>
+                    <TableRow>
+                        <TableCell>Id</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Content</TableCell>
+                        <TableCell>Links</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
                 </TableHead>
                 <TableBody>
                     {articles.map((article, index) => {
