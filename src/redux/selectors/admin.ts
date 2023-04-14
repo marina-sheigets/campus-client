@@ -1,7 +1,8 @@
 import type { RootState } from '../reducers/rootReducer';
 
 export const getStudentStatus = (state: RootState) => state.students.status;
-
+export const getListOfStudents = (state: RootState) =>
+    state.students.studentsList;
 export const getFacultyStatusMessage = (state: RootState) =>
     state.faculty.status;
 export const getListOfFaculties = (state: RootState) =>

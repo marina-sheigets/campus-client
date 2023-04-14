@@ -1,10 +1,17 @@
 import {
     clearStudentStatusMessageAction,
     createStudentAction,
+    getAllStudentsAction,
 } from '../api/ApiActions';
+import type { Student } from '../types/auth';
 
-const initialState = {
+interface InitialState {
+    status: string;
+    studentsList: Student[];
+}
+const initialState: InitialState = {
     status: '',
+    studentsList: [],
 };
 
 const studentReducer = (state = initialState, action: any) => {
@@ -35,6 +42,18 @@ const studentReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 status: '',
+            };
+        }
+        case getAllStudentsAction.type.SUCCESS: {
+            if (action.payload.students) {
+                return {
+                    ...state,
+                    studentsList: action.payload.students,
+                };
+            }
+            return {
+                ...state,
+                studentsList: [],
             };
         }
         default: {

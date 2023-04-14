@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStudentStatus } from '../../../redux/selectors/admin';
 import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAlert';
 import ResultBlock from '../../../components/__atoms__/Result/Result';
+import ListOfStudents from './ListOfStudents';
 
 function CreateNewStudent() {
     const dispatch = useDispatch();
@@ -103,7 +104,6 @@ function CreateNewStudent() {
         () =>
             name.trim().length &&
             email.match(regEx) &&
-            phoneNumber.trim().length === 10 &&
             yearOfAdmission.length &&
             group.length &&
             faculty.length &&
@@ -286,7 +286,7 @@ function CreateNewStudent() {
                 </Forms>
                 <ResultBlock>
                     <FinishButton
-                        disabled={!isAllCompleted || status}
+                        disabled={!isAllCompleted}
                         variant="contained"
                         onClick={handleCreateUser}
                     >
@@ -298,6 +298,7 @@ function CreateNewStudent() {
                         handleCloseStatusMessage={handleCloseStatusMessage}
                     />
                 </ResultBlock>
+                <ListOfStudents />
             </CreatePageWrapper>
         </CreatePageSkeleton>
     );

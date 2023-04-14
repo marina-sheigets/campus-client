@@ -14,3 +14,31 @@ export const createStudentRequest = async (payload: StudentRegistration) => {
         };
     }
 };
+
+export const getAllStudentsRequest = async () => {
+    try {
+        const response = await $api.get('/admin/list/students');
+        return { success: true, data: response };
+    } catch (err: any) {
+        return {
+            success: false,
+            data: err?.response?.data || {
+                message: 'Ops, something went wrong !',
+            },
+        };
+    }
+};
+
+export const deleteStudentByIdRequest = async ({ id }: { id: string }) => {
+    try {
+        const response = await $api.delete(`/admin/student/${id}`);
+        return { success: true, data: response };
+    } catch (err: any) {
+        return {
+            success: false,
+            data: err?.response?.data || {
+                message: 'Ops, something went wrong !',
+            },
+        };
+    }
+};
