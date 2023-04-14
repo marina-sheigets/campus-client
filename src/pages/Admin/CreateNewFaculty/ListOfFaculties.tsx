@@ -7,8 +7,8 @@ import {
     TableCell,
     TableContainer,
     Typography,
+    tableCellClasses,
 } from '@mui/material';
-import theme from '../../../constants/globalStyles';
 import styled from 'styled-components';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import type { Faculty } from '../../../redux/types/faculty';
@@ -77,17 +77,17 @@ function ListOfFaculties() {
                 <TableContainer>
                     <Table>
                         <TableHead>
-                            <StyledTableRow>
+                            <TableRow>
                                 <TableHeaderCell width={'200px'}>
                                     Abbreviation
                                 </TableHeaderCell>
                                 <TableHeaderCell>Name</TableHeaderCell>
                                 <TableHeaderCell></TableHeaderCell>
-                            </StyledTableRow>
+                            </TableRow>
                         </TableHead>
                         <TableBody>
                             {faculties.map((faculty) => (
-                                <StyledTableRow key={faculty.id}>
+                                <TableRow key={faculty.id}>
                                     <TableCell>
                                         {faculty.abbreviation}
                                     </TableCell>
@@ -103,7 +103,7 @@ function ListOfFaculties() {
                                             />
                                         </DeleteButtonCell>
                                     </TableCell>
-                                </StyledTableRow>
+                                </TableRow>
                             ))}
                         </TableBody>
                     </Table>
@@ -139,11 +139,10 @@ const DeleteButtonCell = styled('span')`
     }
 `;
 
-const StyledTableRow = styled(TableRow)`
-    border: 1px solid ${theme.border.black.middle};
-`;
-
-const TableHeaderCell = styled(TableCell)`
-    background: ${theme.background.black.light};
-`;
+const TableHeaderCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: 'black',
+        color: 'white',
+    },
+}));
 export default memo(ListOfFaculties);

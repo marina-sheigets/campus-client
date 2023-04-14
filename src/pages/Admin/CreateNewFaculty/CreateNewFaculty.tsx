@@ -107,7 +107,7 @@ function CreateNewFaculty() {
                     <FinishButton
                         variant="contained"
                         onClick={createFaculty}
-                        disabled={!isAllCompleted || !!status}
+                        disabled={!isAllCompleted}
                     >
                         Finish
                     </FinishButton>
