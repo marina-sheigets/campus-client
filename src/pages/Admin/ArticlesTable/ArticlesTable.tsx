@@ -6,13 +6,13 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    tableCellClasses,
 } from '@mui/material';
 import styled from 'styled-components';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DeleteModal from '../../../components/__features__/DeleteModal/DeleteModal';
 import { deleteArticleAction } from '../../../redux/api/ApiActions';
 import { useDispatch } from 'react-redux';
+import TableHeaderCell from '../../../components/__atoms__/TableHeaderCell/TableHeaderCell';
 
 interface ArticlesTableProps {
     articles: Article[];
@@ -38,11 +38,11 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Id</StyledTableCell>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell>Content</StyledTableCell>
-                        <StyledTableCell>Links</StyledTableCell>
-                        <StyledTableCell></StyledTableCell>
+                        <TableHeaderCell>Id</TableHeaderCell>
+                        <TableHeaderCell>Name</TableHeaderCell>
+                        <TableHeaderCell>Content</TableHeaderCell>
+                        <TableHeaderCell>Links</TableHeaderCell>
+                        <TableHeaderCell></TableHeaderCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -100,15 +100,7 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
 const Wrapper = styled('div')`
     margin: 1rem 0 3rem;
 `;
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'black',
-        color: 'white',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
+
 const Content = styled('div')`
     width: 100%;
     max-width: 400px;

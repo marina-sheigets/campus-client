@@ -7,7 +7,6 @@ import {
     TableCell,
     TableContainer,
     Typography,
-    tableCellClasses,
 } from '@mui/material';
 import styled from 'styled-components';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -24,6 +23,7 @@ import {
     getFacultyDeleteStatusMessage,
     getListOfFaculties,
 } from '../../../redux/selectors/admin';
+import TableHeaderCell from '../../../components/__atoms__/TableHeaderCell/TableHeaderCell';
 
 function ListOfFaculties() {
     const dispatch = useDispatch();
@@ -139,10 +139,4 @@ const DeleteButtonCell = styled('span')`
     }
 `;
 
-const TableHeaderCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'black',
-        color: 'white',
-    },
-}));
 export default memo(ListOfFaculties);

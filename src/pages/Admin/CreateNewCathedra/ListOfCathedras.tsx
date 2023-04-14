@@ -8,7 +8,6 @@ import {
     TableContainer,
     Typography,
 } from '@mui/material';
-import theme from '../../../constants/globalStyles';
 import styled from 'styled-components';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import type { Faculty } from '../../../redux/types/faculty';
@@ -24,6 +23,7 @@ import {
     getListOfCathedras,
 } from '../../../redux/selectors/admin';
 import type { Cathedra } from '../../../redux/types/cathedra';
+import TableHeaderCell from '../../../components/__atoms__/TableHeaderCell/TableHeaderCell';
 
 function ListOfCathedras() {
     const dispatch = useDispatch();
@@ -73,18 +73,18 @@ function ListOfCathedras() {
                 <TableContainer>
                     <Table>
                         <TableHead>
-                            <StyledTableRow>
+                            <TableRow>
                                 <TableHeaderCell width={'200px'}>
                                     Abbreviation
                                 </TableHeaderCell>
                                 <TableHeaderCell>Name</TableHeaderCell>
                                 <TableHeaderCell>Faculty</TableHeaderCell>
                                 <TableHeaderCell></TableHeaderCell>
-                            </StyledTableRow>
+                            </TableRow>
                         </TableHead>
                         <TableBody>
                             {cathedras.map((cathedra) => (
-                                <StyledTableRow key={cathedra.id}>
+                                <TableRow key={cathedra.id}>
                                     <TableCell>
                                         {cathedra.abbreviation}
                                     </TableCell>
@@ -101,7 +101,7 @@ function ListOfCathedras() {
                                             />
                                         </DeleteButtonCell>
                                     </TableCell>
-                                </StyledTableRow>
+                                </TableRow>
                             ))}
                         </TableBody>
                     </Table>
@@ -135,11 +135,4 @@ const DeleteButtonCell = styled('span')`
     }
 `;
 
-const StyledTableRow = styled(TableRow)`
-    border: 1px solid ${theme.border.black.middle};
-`;
-
-const TableHeaderCell = styled(TableCell)`
-    background: ${theme.background.black.light};
-`;
 export default ListOfCathedras;

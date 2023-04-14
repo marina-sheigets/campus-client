@@ -5,7 +5,6 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    tableCellClasses,
     TableRow,
 } from '@mui/material';
 import styled from 'styled-components';
@@ -16,6 +15,7 @@ import {
     deleteStudentByIdAction,
     getAllStudentsAction,
 } from '../../../redux/api/ApiActions';
+import TableHeaderCell from '../../../components/__atoms__/TableHeaderCell/TableHeaderCell';
 
 interface StudentsTableProps {
     students: Student[];
@@ -43,17 +43,17 @@ function StudentsTable({ students }: StudentsTableProps) {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Id</StyledTableCell>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell>Email</StyledTableCell>
-                        <StyledTableCell>Phone Number</StyledTableCell>
-                        <StyledTableCell>Year Of Admission</StyledTableCell>
-                        <StyledTableCell>Faculty</StyledTableCell>
-                        <StyledTableCell>Cathedra</StyledTableCell>
-                        <StyledTableCell>Specialty</StyledTableCell>
-                        <StyledTableCell>Group</StyledTableCell>
-                        <StyledTableCell>Type</StyledTableCell>
-                        <StyledTableCell></StyledTableCell>
+                        <TableHeaderCell>Id</TableHeaderCell>
+                        <TableHeaderCell>Name</TableHeaderCell>
+                        <TableHeaderCell>Email</TableHeaderCell>
+                        <TableHeaderCell>Phone Number</TableHeaderCell>
+                        <TableHeaderCell>Year Of Admission</TableHeaderCell>
+                        <TableHeaderCell>Faculty</TableHeaderCell>
+                        <TableHeaderCell>Cathedra</TableHeaderCell>
+                        <TableHeaderCell>Specialty</TableHeaderCell>
+                        <TableHeaderCell>Group</TableHeaderCell>
+                        <TableHeaderCell>Type</TableHeaderCell>
+                        <TableHeaderCell></TableHeaderCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -104,13 +104,5 @@ const DeleteButtonCell = styled('span')`
         cursor: pointer;
     }
 `;
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'black',
-        color: 'white',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
+
 export default StudentsTable;
