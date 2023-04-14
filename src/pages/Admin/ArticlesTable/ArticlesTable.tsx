@@ -6,6 +6,7 @@ import {
     TableCell,
     TableHead,
     TableRow,
+    tableCellClasses,
 } from '@mui/material';
 import styled from 'styled-components';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -37,11 +38,11 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Id</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Content</TableCell>
-                        <TableCell>Links</TableCell>
-                        <TableCell></TableCell>
+                        <StyledTableCell>Id</StyledTableCell>
+                        <StyledTableCell>Name</StyledTableCell>
+                        <StyledTableCell>Content</StyledTableCell>
+                        <StyledTableCell>Links</StyledTableCell>
+                        <StyledTableCell></StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -97,8 +98,17 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
     );
 }
 const Wrapper = styled('div')`
-    margin-bottom: 3rem;
+    margin: 1rem 0 3rem;
 `;
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: 'black',
+        color: 'white',
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
 const Content = styled('div')`
     width: 100%;
     max-width: 400px;
