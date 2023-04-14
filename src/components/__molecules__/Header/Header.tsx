@@ -8,12 +8,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../../redux/selectors/auth';
 import type { Student, Teacher, Admin } from '../../../redux/types/auth';
 import { BiCrown } from 'react-icons/bi';
-import { checkUserAuthAction } from '../../../redux/api/ApiActions';
+import {
+    checkUserAuthAction,
+    logOutAction,
+} from '../../../redux/api/ApiActions';
+import { useNavigate } from 'react-router-dom';
 function Header() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const user: Admin | Student | Teacher = useSelector(getUser);
 
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        dispatch(logOutAction.request());
+        navigate('/');
+    };
     useEffect(() => {
         dispatch(checkUserAuthAction.request());
     }, []);
@@ -40,7 +50,7 @@ function Header() {
                     <MyProfileButton variant="contained">
                         My Profile
                     </MyProfileButton>
-                    <IconButton src={iconBack} />
+                    <IconButton src={iconBack} onClick={handleLogOut} />
                 </ToolsItems>
             </Tools>
         </Wrapper>
@@ -53,7 +63,9 @@ const MyProfileButton = styled(Button)`
     cursor: pointer;
 `;
 
-const IconButton = styled('img')``;
+const IconButton = styled('img')`
+    cursor: pointer;
+`;
 const Tools = styled('div')`
     display: flex;
     justify-content: space-between;

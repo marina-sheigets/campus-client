@@ -30,3 +30,16 @@ export const checkUserAuthRequest = async () => {
         };
     }
 };
+
+export const logOutRequest = async () => {
+    try {
+        const response = await axios.post('/auth/logout');
+
+        return { success: true, data: response.data };
+    } catch (err: any) {
+        return {
+            success: false,
+            data: err.response.data || 'Ops, something went wrong !',
+        };
+    }
+};

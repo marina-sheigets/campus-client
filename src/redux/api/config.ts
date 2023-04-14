@@ -28,7 +28,11 @@ $api.interceptors.response.use(
     async (error) => {
         const initialRequest = error.config;
         if (initialRequest.url !== '/auth/refresh') {
-            if (error?.response.status === 401 && !initialRequest._retry) {
+            if (
+                error?.response.status === 401 &&
+                !initialRequest._retry &&
+                !!localStorage.getItem('token')
+            ) {
                 initialRequest._retry = true;
                 try {
                     const response = await axios.get(
@@ -55,7 +59,11 @@ axios.interceptors.response.use(
     async (error) => {
         const initialRequest = error.config;
         if (initialRequest.url !== '/auth/refresh') {
-            if (error?.response.status === 401 && !initialRequest._retry) {
+            if (
+                error?.response.status === 401 &&
+                !initialRequest._retry &&
+                !!localStorage.getItem('token')
+            ) {
                 initialRequest._retry = true;
                 try {
                     const response = await axios.get(

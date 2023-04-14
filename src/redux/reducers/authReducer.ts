@@ -1,6 +1,7 @@
 import {
     checkUserAuthAction,
     clearAuthErrorAction,
+    logOutAction,
     signInAction,
 } from '../api/ApiActions';
 import type { Student, Teacher } from '../types/auth';
@@ -15,7 +16,7 @@ const initialState: InitialState = {
     user: {},
     authError: '',
     isAuth: false,
-    isAuthInProgress: true,
+    isAuthInProgress: !!localStorage.getItem('token'),
 };
 
 const authReducer = (state = initialState, action: any) => {
@@ -55,6 +56,13 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 authError: '',
+            };
+        }
+
+        case logOutAction.type.REQUEST: {
+            return {
+                ...state,
+                isAuth: false,
             };
         }
         default: {
