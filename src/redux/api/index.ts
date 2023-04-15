@@ -43,3 +43,16 @@ export const logOutRequest = async () => {
         };
     }
 };
+
+export const restorePasswordRequest = async ({ email }: { email: string }) => {
+    try {
+        const response = await axios.post('/auth/restore/password', { email });
+
+        return { success: true, data: response.data };
+    } catch (err: any) {
+        return {
+            success: false,
+            data: err.response.data || 'Ops, something went wrong !',
+        };
+    }
+};

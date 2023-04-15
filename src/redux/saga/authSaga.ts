@@ -2,9 +2,15 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     checkUserAuthAction,
     logOutAction,
+    restorePasswordAction,
     signInAction,
 } from '../api/ApiActions';
-import { signInRequest, checkUserAuthRequest, logOutRequest } from '../api';
+import {
+    signInRequest,
+    checkUserAuthRequest,
+    logOutRequest,
+    restorePasswordRequest,
+} from '../api';
 
 function* signIn(action: any) {
     try {
@@ -35,10 +41,24 @@ function* logOut() {
     }
 }
 
+function* restorePassword(action: {
+    type: string;
+    payload: { email: string };
+}) {
+    try {
+        // @ts-ignore
+        const res = yield call(restorePasswordRequest, action.payload);
+        yield put(restorePasswordAction.success(res));
+    } catch ({ message }: any) {
+        yield put(restorePasswordAction.failed({ message }));
+    }
+}
+
 function* authWatcher() {
     yield takeLatest(signInAction.type.REQUEST, signIn);
     yield takeLatest(checkUserAuthAction.type.REQUEST, checkUserAuth);
     yield takeLatest(logOutAction.type.REQUEST, logOut);
+    yield takeLatest(restorePasswordAction.type.REQUEST, restorePassword);
 }
 
 export default authWatcher;

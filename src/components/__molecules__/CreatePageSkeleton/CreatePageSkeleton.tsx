@@ -21,7 +21,7 @@ function CreatePageSkeleton({ children }: CreatePageSkeletonProps) {
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000);
+        }, 600);
         if (window.location.pathname !== '/' && !isAuth) {
             navigate('/');
         }

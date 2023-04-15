@@ -53,3 +53,5 @@ export const deleteArticleAction = createActions('DELETE_ARTICLE');
 export const clearArticleDeleteStatusAction = createActions(
     'CLEAR_ARTICLE_DELETE_STATUS'
 );
+
+export const restorePasswordAction = createActions('RESTORE_PASSWORD');

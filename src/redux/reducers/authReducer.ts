@@ -2,6 +2,7 @@ import {
     checkUserAuthAction,
     clearAuthErrorAction,
     logOutAction,
+    restorePasswordAction,
     signInAction,
 } from '../api/ApiActions';
 import type { Student, Teacher } from '../types/auth';
@@ -11,11 +12,13 @@ interface InitialState {
     authError: string;
     isAuth: boolean;
     isAuthInProgress: boolean;
+    restoreMessage: string;
 }
 const initialState: InitialState = {
     user: {},
     authError: '',
     isAuth: false,
+    restoreMessage: '',
     isAuthInProgress: !!localStorage.getItem('token'),
 };
 
@@ -26,12 +29,14 @@ const authReducer = (state = initialState, action: any) => {
                 localStorage.setItem('token', action.payload.data.accessToken);
                 return {
                     ...state,
+                    restoreMessage: '',
                     user: action.payload.data.user,
                     isAuth: true,
                 };
             }
             return {
                 ...state,
+                restoreMessage: '',
                 authError: action.payload.data.message,
                 isAuthInProgress: false,
             };
@@ -39,6 +44,7 @@ const authReducer = (state = initialState, action: any) => {
         case signInAction.type.FAILED: {
             return {
                 ...state,
+                restoreMessage: '',
                 authError: 'Something went wrong',
                 isAuthInProgress: false,
             };
@@ -47,6 +53,7 @@ const authReducer = (state = initialState, action: any) => {
         case checkUserAuthAction.type.FAILED: {
             return {
                 ...state,
+                restoreMessage: '',
                 authError: 'Session is expired. Sign in again',
                 isAuthInProgress: false,
             };
@@ -56,13 +63,31 @@ const authReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 authError: '',
+                restoreMessage: '',
             };
         }
 
         case logOutAction.type.REQUEST: {
             return {
                 ...state,
+                authError: '',
                 isAuth: false,
+            };
+        }
+
+        case restorePasswordAction.type.SUCCESS: {
+            return {
+                ...state,
+                restoreMessage:
+                    action.payload.data.message ?? 'Something went wrong',
+            };
+        }
+
+        case restorePasswordAction.type.FAILED: {
+            return {
+                ...state,
+                restoreMessage:
+                    action.payload.message ?? 'Something went wrong',
             };
         }
         default: {

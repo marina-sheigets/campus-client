@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, type ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import img from '../../assets/login.jpg';
@@ -10,14 +10,17 @@ import {
     signInAction,
     clearAuthErrorAction,
     checkUserAuthAction,
+    restorePasswordAction,
 } from '../../redux/api/ApiActions';
 import {
     getAuthError,
     getIsAuth,
     getIsAuthInProgress,
+    getRestoreMessage,
 } from '../../redux/selectors/auth';
 import { useNavigate } from 'react-router';
 import LoaderWrapper from '../../components/__atoms__/LoaderWrapper/LoaderWrapper';
+import ForgetPasswordDialog from '../../components/__molecules__/ForgetPasswordDialog/ForgetPasswordDialog';
 
 function Login() {
     const navigate = useNavigate();
@@ -27,9 +30,13 @@ function Login() {
     const isAuthInProgress = useSelector(getIsAuthInProgress);
     const authError = useSelector(getAuthError);
     const isAuth = useSelector(getIsAuth);
+    const restoreMessage: string = useSelector(getRestoreMessage);
 
     const [email, setEmail] = useState('');
+    const [emailForRestoring, setEmailForRestoring] = useState('');
     const [password, setPassword] = useState('');
+    const [isForgetPasswordDialogOpen, setIsForgetPasswordDialogOpen] =
+        useState(false);
     const emailReg = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -46,11 +53,25 @@ function Login() {
         dispatch(clearAuthErrorAction.request());
     };
 
+    const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmailForRestoring(e.target.value);
+    };
     const isAllCompleted = useMemo(
         () => email.match(emailReg) && password.length > 7,
         [email, password]
     );
 
+    const handleForgetPassword = () => {
+        setIsForgetPasswordDialogOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsForgetPasswordDialogOpen(false);
+    };
+    const handleRestorePassword = () => {
+        handleModalClose();
+        dispatch(restorePasswordAction.request({ email: emailForRestoring }));
+    };
     useEffect(() => {
         if (isAuth) {
             navigate('/new/article');
@@ -74,7 +95,12 @@ function Login() {
     return (
         <Wrapper>
             <LoginBox>
-                <LogoImg src={logo}></LogoImg>
+                <LogoImg
+                    alt="Logo image"
+                    width="150"
+                    height="150"
+                    src={logo}
+                ></LogoImg>
                 <MainTitle>Welcome to Campus</MainTitle>
                 <LoginForm>
                     <Title>Enter your credentials</Title>
@@ -86,11 +112,24 @@ function Login() {
                             {authError}
                         </StyledAlert>
                     ) : null}
+                    {restoreMessage ? (
+                        <StyledAlert
+                            onClose={handleAlertMessageClose}
+                            severity={
+                                restoreMessage.includes('wrong') || restoreMessage.includes('does not')
+                                    ? 'error'
+                                    : 'success'
+                            }
+                        >
+                            {restoreMessage}
+                        </StyledAlert>
+                    ) : null}
                     <StyledTextField
                         value={email}
                         onChange={handleChangeEmail}
                         size="small"
                         placeholder="Email"
+                        autoComplete="on"
                     />
                     <StyledTextField
                         value={password}
@@ -98,9 +137,12 @@ function Login() {
                         size="small"
                         type="password"
                         placeholder="Password"
+                        autoComplete="on"
                     />
                     <ForgetPassword>
-                        <span>Forget password ?</span>
+                        <span onClick={handleForgetPassword}>
+                            Forget password ?
+                        </span>
                     </ForgetPassword>
                     <SignInButton
                         disabled={!isAllCompleted}
@@ -114,6 +156,13 @@ function Login() {
                     </ViewButton>
                 </LoginForm>
             </LoginBox>
+            <ForgetPasswordDialog
+                isOpen={isForgetPasswordDialogOpen}
+                handleClose={handleModalClose}
+                handleProceed={handleRestorePassword}
+                email={emailForRestoring}
+                changeEmail={changeEmail}
+            />
         </Wrapper>
     );
 }
