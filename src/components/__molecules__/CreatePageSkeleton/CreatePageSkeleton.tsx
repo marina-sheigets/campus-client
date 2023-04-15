@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../Header/Header';
 import LeftSideBar from '../LeftSideBar/LeftSideBar';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getIsAuth } from '../../../redux/selectors/auth';
 import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import LoaderWrapper from '../../__atoms__/LoaderWrapper/LoaderWrapper';
+import { automaticLogOutAction } from '../../../redux/api/ApiActions';
 
 interface CreatePageSkeletonProps {
     children: React.ReactNode;
 }
 
 function CreatePageSkeleton({ children }: CreatePageSkeletonProps) {
+    const dispatch = useDispatch();
     const isAuth = useSelector(getIsAuth);
 
     const navigate = useNavigate();
@@ -26,6 +28,24 @@ function CreatePageSkeleton({ children }: CreatePageSkeletonProps) {
             navigate('/');
         }
     }, []);
+
+    useEffect(() => {
+        const handleTokenChange = (e: StorageEvent) => {
+            if (e.key === 'token' && e.oldValue && !e.newValue) {
+                // Token has been removed from local storage
+                localStorage.removeItem('token');
+                dispatch(automaticLogOutAction.request());
+                navigate('/');
+            }
+        };
+
+        window.addEventListener('storage', handleTokenChange);
+
+        return () => {
+            window.removeEventListener('storage', handleTokenChange);
+        };
+    }, []);
+
     return (
         <Wrapper>
             {isLoading ? (

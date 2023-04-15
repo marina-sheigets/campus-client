@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
+    automaticLogOutAction,
     checkUserAuthAction,
     logOutAction,
     restorePasswordAction,
@@ -41,6 +42,16 @@ function* logOut() {
     }
 }
 
+function* automaticLogOut() {
+    try {
+        // @ts-ignore
+        const res = yield call(logOutRequest);
+        yield put(automaticLogOutAction.success(res));
+    } catch ({ message }: any) {
+        yield put(automaticLogOutAction.failed({ message }));
+    }
+}
+
 function* restorePassword(action: {
     type: string;
     payload: { email: string };
@@ -58,6 +69,7 @@ function* authWatcher() {
     yield takeLatest(signInAction.type.REQUEST, signIn);
     yield takeLatest(checkUserAuthAction.type.REQUEST, checkUserAuth);
     yield takeLatest(logOutAction.type.REQUEST, logOut);
+    yield takeLatest(automaticLogOutAction.type.REQUEST, automaticLogOut);
     yield takeLatest(restorePasswordAction.type.REQUEST, restorePassword);
 }
 

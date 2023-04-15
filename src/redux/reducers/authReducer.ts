@@ -1,4 +1,5 @@
 import {
+    automaticLogOutAction,
     checkUserAuthAction,
     clearAuthErrorAction,
     logOutAction,
@@ -88,6 +89,14 @@ const authReducer = (state = initialState, action: any) => {
                 ...state,
                 restoreMessage:
                     action.payload.message ?? 'Something went wrong',
+            };
+        }
+
+        case automaticLogOutAction.type.REQUEST: {
+            return {
+                ...state,
+                isAuth: false,
+                authError: 'Session is expired. Sign in again',
             };
         }
         default: {
