@@ -46,9 +46,11 @@ export const clearSpecialtyDeleteStatusAction = createActions(
 );
 
 export const createArticleAction = createActions('CREATE_ARTICLE');
+export const editArticleAction = createActions('EDIT_ARTICLE');
 export const clearArticleStatusMessageAction = createActions(
     'CLEAR_ARTICLE_STATUS_MESSAGE'
 );
+export const deleteEditingStatusAction = createActions('DELETE_EDITING_STATUS');
 export const getListOfArticlesAction = createActions('GET_LIST_OF_ARTICLES');
 export const deleteArticleAction = createActions('DELETE_ARTICLE');
 export const clearArticleDeleteStatusAction = createActions(

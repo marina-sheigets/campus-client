@@ -5,6 +5,8 @@ import {
     getListOfArticlesAction,
     deleteArticleAction,
     clearArticleDeleteStatusAction,
+    editArticleAction,
+    deleteEditingStatusAction,
 } from '../api/ApiActions';
 import type { Article, ArticleResponse } from '../types/article';
 
@@ -12,11 +14,13 @@ interface InitialState {
     status: string;
     articlesList: Article[];
     deleteStatus: string;
+    editingStatus: string;
 }
 const initialState: InitialState = {
     status: '',
     articlesList: [],
     deleteStatus: '',
+    editingStatus: '',
 };
 
 const articleReducer = (state = initialState, action: AnyAction) => {
@@ -104,6 +108,32 @@ const articleReducer = (state = initialState, action: AnyAction) => {
             };
         }
 
+        case editArticleAction.type.SUCCESS: {
+            if (action.payload.article) {
+                return {
+                    ...state,
+                    editingStatus: 'Article was edited successfully',
+                };
+            }
+            return {
+                ...state,
+                editingStatus: 'Something went wrong',
+            };
+        }
+
+        case editArticleAction.type.FAILED: {
+            return {
+                ...state,
+                editingStatus: 'Something went wrong',
+            };
+        }
+
+        case deleteEditingStatusAction.type.REQUEST: {
+            return {
+                ...state,
+                editingStatus: '',
+            };
+        }
         default: {
             return state;
         }

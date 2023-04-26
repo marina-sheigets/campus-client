@@ -21,6 +21,7 @@ import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAle
 import ResultBlock from '../../../components/__atoms__/Result/Result';
 import { getArticleStatusMessage } from '../../../redux/selectors/admin';
 import ListOfArticles from '../ListOfArticles/ListOfArticles';
+import TextArea from '../../../components/__atoms__/TextArea/TextArea';
 
 function CreateNewArticle() {
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function CreateNewArticle() {
     };
 
     const handleAddLink = () => {
-        setLinks([...links, { id: Date.now(), url: '' }]);
+        setLinks([{ id: Date.now(), url: '' }, ...links]);
     };
 
     const handleDeleteLink = (id: number) => {
@@ -140,7 +141,7 @@ function CreateNewArticle() {
                             label={'Enter the content of article'}
                             currentAmount={currentContentLength}
                         />
-                        <Textarea
+                        <TextArea
                             value={articleContent}
                             onChange={handleChangeArticleContent}
                         />
@@ -237,16 +238,6 @@ const StyledForm = styled(Form)`
         background: ${theme.background.black.light};
         border: none;
     }
-`;
-
-const Textarea = styled('textarea')`
-    padding: 0.5rem;
-    resize: none;
-    outline: none;
-    height: 250px;
-    border-radius: 10px;
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    font-size: 1rem;
 `;
 
 export default CreateNewArticle;

@@ -30,3 +30,5 @@ export const getListOfArticles = (state: RootState) =>
     state.article.articlesList;
 export const getArticleDeleteStatusMessage = (state: RootState) =>
     state.article.deleteStatus;
+export const getEditingStatus = (state: RootState) =>
+    state.article.editingStatus;

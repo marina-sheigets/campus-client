@@ -2,14 +2,17 @@ import {
     createArticleAction,
     getListOfArticlesAction,
     deleteArticleAction,
+    editArticleAction,
 } from '../api/ApiActions';
 import { put, takeLatest, call } from 'redux-saga/effects';
 import {
     createArticleRequest,
     getArticlesRequest,
     deleteArticleRequest,
+    editArticleRequest,
 } from '../api/article';
 import type { CreateFacultyType } from '../types/faculty';
+import type { Article } from '../types/article';
 
 function* createArticle(action: { type: string; payload: CreateFacultyType }) {
     try {
@@ -41,9 +44,20 @@ function* deleteArticle(action: { type: string; payload: { id: string } }) {
     }
 }
 
+function* editArticle(action: { type: string; payload: Article }) {
+    try {
+        // @ts-ignore
+        const res = yield call(editArticleRequest, action.payload);
+        yield put(editArticleAction.success(res.data.data));
+    } catch ({ message }: any) {
+        yield put(editArticleAction.failed({ message }));
+    }
+}
+
 function* studentWatcher() {
     yield takeLatest(createArticleAction.type.REQUEST, createArticle);
     yield takeLatest(getListOfArticlesAction.type.REQUEST, getArticles);
     yield takeLatest(deleteArticleAction.type.REQUEST, deleteArticle);
+    yield takeLatest(editArticleAction.type.REQUEST, editArticle);
 }
 export default studentWatcher;

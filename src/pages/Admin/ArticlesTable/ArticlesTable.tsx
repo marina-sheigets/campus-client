@@ -13,6 +13,11 @@ import DeleteModal from '../../../components/__features__/DeleteModal/DeleteModa
 import { deleteArticleAction } from '../../../redux/api/ApiActions';
 import { useDispatch } from 'react-redux';
 import TableHeaderCell from '../../../components/__atoms__/TableHeaderCell/TableHeaderCell';
+import EditIcon from '@mui/icons-material/Edit';
+import ArticleEditModal from '../ArticleEditModal/ArticleEditModal';
+import Link from '../../../components/__atoms__/Link/Link';
+import LinksBox from '../../../components/__atoms__/LinksBox/LinksBox';
+import ButtonCell from '../../../components/__atoms__/ButtonCell/ButtonCell';
 
 interface ArticlesTableProps {
     articles: Article[];
@@ -20,7 +25,10 @@ interface ArticlesTableProps {
 function ArticlesTable({ articles }: ArticlesTableProps) {
     const dispatch = useDispatch();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
     const [itemToDelete, setItemToDelete] = useState<Article>();
+    const [itemToEdit, setItemToEdit] = useState<Article>();
 
     const handleAskDeleteArticle = (article: Article) => {
         setItemToDelete(article);
@@ -29,10 +37,20 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
     const handleClose = () => {
         setIsDeleteModalOpen(false);
     };
+
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
+    };
     const handleDeleteArticle = () => {
         handleClose();
         dispatch(deleteArticleAction.request({ id: itemToDelete?.id }));
     };
+
+    const handleOpenEditModal = (article: Article) => {
+        setItemToEdit(article);
+        setIsEditModalOpen(true);
+    };
+
     return (
         <Wrapper>
             <Table>
@@ -42,6 +60,7 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
                         <TableHeaderCell>Name</TableHeaderCell>
                         <TableHeaderCell>Content</TableHeaderCell>
                         <TableHeaderCell>Links</TableHeaderCell>
+                        <TableHeaderCell></TableHeaderCell>
                         <TableHeaderCell></TableHeaderCell>
                     </TableRow>
                 </TableHead>
@@ -75,13 +94,22 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
                                     </LinksBox>
                                 </TableCell>
                                 <TableCell>
-                                    <DeleteButtonCell>
+                                    <ButtonCell>
+                                        <EditIcon
+                                            onClick={() => {
+                                                handleOpenEditModal(article);
+                                            }}
+                                        />
+                                    </ButtonCell>
+                                </TableCell>
+                                <TableCell>
+                                    <ButtonCell>
                                         <DeleteOutlinedIcon
                                             onClick={() => {
                                                 handleAskDeleteArticle(article);
                                             }}
                                         />
-                                    </DeleteButtonCell>
+                                    </ButtonCell>
                                 </TableCell>
                             </TableRow>
                         );
@@ -94,6 +122,13 @@ function ArticlesTable({ articles }: ArticlesTableProps) {
                 handleClose={handleClose}
                 item={itemToDelete?.name ?? ''}
             />
+            {itemToEdit ? (
+                <ArticleEditModal
+                    article={itemToEdit}
+                    isOpen={isEditModalOpen}
+                    handleClose={handleCloseEditModal}
+                />
+            ) : null}
         </Wrapper>
     );
 }
@@ -107,25 +142,6 @@ const Content = styled('div')`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-`;
-const Link = styled('a')`
-    width: 250px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-`;
-const DeleteButtonCell = styled('span')`
-    display: flex;
-    justify-content: end;
-    border-bottom: none;
-    svg {
-        cursor: pointer;
-    }
-`;
-const LinksBox = styled('div')`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 `;
 
 export default ArticlesTable;
