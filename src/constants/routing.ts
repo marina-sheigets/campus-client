@@ -12,7 +12,7 @@ export const LINKS = [
     {
         id: 3,
         name: 'Add Teacher',
-        route: 'new/teacher',
+        route: '/new/teacher',
     },
     {
         id: 4,

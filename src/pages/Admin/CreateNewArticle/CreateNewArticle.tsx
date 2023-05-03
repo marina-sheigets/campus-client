@@ -22,6 +22,8 @@ import ResultBlock from '../../../components/__atoms__/Result/Result';
 import { getArticleStatusMessage } from '../../../redux/selectors/admin';
 import ListOfArticles from '../ListOfArticles/ListOfArticles';
 import TextArea from '../../../components/__atoms__/TextArea/TextArea';
+import LinkField from '../../../components/__atoms__/LinkField/LinkField';
+import AddLinkButton from '../../../components/__atoms__/AddLinkButton/AddLinkButton';
 
 function CreateNewArticle() {
     const dispatch = useDispatch();
@@ -204,13 +206,6 @@ const FinishButton = styled(Button)`
     width: 300px;
     margin-top: 2rem;
     margin-bottom: 1rem;
-`;
-
-const AddLinkButton = styled(Button)`
-    width: 300px;
-`;
-const LinkField = styled(TextField)`
-    flex: 8;
 `;
 
 const LinkForm = styled(Form)`
