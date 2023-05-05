@@ -14,6 +14,7 @@ import {
     deleteSeveralArticlesRequest,
 } from '../api/article';
 import type { CreateFacultyType } from '../types/faculty';
+
 import type { Article } from '../types/article';
 
 function* createArticle(action: { type: string; payload: CreateFacultyType }) {
