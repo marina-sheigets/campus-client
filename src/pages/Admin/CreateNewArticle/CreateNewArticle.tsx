@@ -102,8 +102,8 @@ function CreateNewArticle() {
         [articleContent]
     );
     const isAllCompleted = useMemo(() => {
-        return articleName.trim().length && articleContent.trim().length;
-    }, [articleName, articleContent]);
+        return articleName.trim().length;
+    }, [articleName]);
 
     useEffect(() => {
         if (severity === 'success') {

@@ -5,6 +5,7 @@ import {
     deleteEditingStatusAction,
 } from '../../../redux/api/ApiActions';
 import {
+    getArticleDeleteStatusMessage,
     getEditingStatus,
     getListOfArticles,
 } from '../../../redux/selectors/admin';
@@ -15,13 +16,14 @@ import StatusAlert from '../../../components/__molecules__/StatusAlert/StatusAle
 function ListOfArticles() {
     const dispatch = useDispatch();
     const editingStatus = useSelector(getEditingStatus);
+    const deleteStatus = useSelector(getArticleDeleteStatusMessage);
     const articlesList = useSelector(getListOfArticles);
     const handleCloseEditingStatusMessage = () => {
         dispatch(deleteEditingStatusAction.request());
     };
     useEffect(() => {
         dispatch(getListOfArticlesAction.request());
-    }, [editingStatus]);
+    }, [editingStatus, deleteStatus]);
 
     const severity = useMemo(
         () => (editingStatus.includes('successfully') ? 'success' : 'error'),

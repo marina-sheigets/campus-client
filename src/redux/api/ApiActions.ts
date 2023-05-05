@@ -50,6 +50,9 @@ export const editArticleAction = createActions('EDIT_ARTICLE');
 export const clearArticleStatusMessageAction = createActions(
     'CLEAR_ARTICLE_STATUS_MESSAGE'
 );
+export const deleteSeveralArticlesAction = createActions(
+    'DELETE_SEVERAL_ARTICLES'
+);
 export const deleteEditingStatusAction = createActions('DELETE_EDITING_STATUS');
 export const getListOfArticlesAction = createActions('GET_LIST_OF_ARTICLES');
 export const deleteArticleAction = createActions('DELETE_ARTICLE');

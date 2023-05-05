@@ -60,3 +60,22 @@ export const editArticleRequest = async (body: Article) => {
         };
     }
 };
+
+export const deleteSeveralArticlesRequest = async (
+    payload: Array<{ id: string }>
+) => {
+    try {
+        const response = await $api.post(
+            '/admin/delete/several/article',
+            payload
+        );
+        return { success: true, data: response };
+    } catch (err: any) {
+        return {
+            success: false,
+            data: err?.response?.data || {
+                message: 'Ops, something went wrong !',
+            },
+        };
+    }
+};
