@@ -7,6 +7,7 @@ import {
     clearArticleDeleteStatusAction,
     editArticleAction,
     deleteEditingStatusAction,
+    deleteSeveralArticlesAction,
 } from '../api/ApiActions';
 import type { Article, ArticleResponse } from '../types/article';
 
@@ -61,7 +62,7 @@ const articleReducer = (state = initialState, action: AnyAction) => {
 
         case getListOfArticlesAction.type.SUCCESS: {
             if (!action.payload.articles.length) {
-                return state;
+                return { ...state, articlesList: [] };
             }
             const arr: Article[] = [];
             action.payload.articles.forEach((article: ArticleResponse) => {
@@ -132,6 +133,25 @@ const articleReducer = (state = initialState, action: AnyAction) => {
             return {
                 ...state,
                 editingStatus: '',
+            };
+        }
+
+        case deleteSeveralArticlesAction.type.REQUEST: {
+            return {
+                ...state,
+                deleteStatus: 'Started',
+            };
+        }
+        case deleteSeveralArticlesAction.type.SUCCESS: {
+            return {
+                ...state,
+                deleteStatus: 'Selected articles were deleted successfully !',
+            };
+        }
+        case deleteSeveralArticlesAction.type.FAILED: {
+            return {
+                ...state,
+                deleteStatus: 'Selected articles were not deleted. Try again !',
             };
         }
         default: {
